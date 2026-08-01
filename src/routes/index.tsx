@@ -1,24 +1,218 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { useState } from "react";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import {
+  ArrowRight,
+  Dna,
+  Bot,
+  Rocket,
+  FileSpreadsheet,
+  Search,
+  ShieldCheck,
+  Activity,
+} from "lucide-react";
+import { toast } from "sonner";
 
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Card, CardContent } from "@/components/ui/card";
+import { StatusBadge } from "@/components/status-badge";
+import { currency, usePortal, type Quotation } from "@/lib/portal-store";
+
 export const Route = createFileRoute("/")({
-  component: Index,
+  head: () => ({
+    meta: [
+      { title: "Oscorp Industries — Advanced Enterprise Quotation & Contract Portal" },
+      {
+        name: "description",
+        content:
+          "Submit quotations, track reference IDs in real time and manage enterprise contracts across Oscorp Genetics, Robotics and Aerospace divisions.",
+      },
+      {
+        property: "og:title",
+        content: "Oscorp Industries — Advanced Enterprise Quotation & Contract Portal",
+      },
+      {
+        property: "og:description",
+        content:
+          "Enterprise-grade quotation submission, contract approval and vendor verification for Oscorp Industries Corporation.",
+      },
+    ],
+  }),
+  component: Home,
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
-function Index() {
+const divisions = [
+  {
+    icon: Dna,
+    name: "Genetics",
+    blurb: "Sequencing infrastructure, biosafety compliance and lab build-out contracting.",
+    metric: "184 active contracts",
+  },
+  {
+    icon: Bot,
+    name: "Advanced Robotics",
+    blurb: "Autonomous systems, AGV retrofits and Mark-IV control stack integration.",
+    metric: "97 active contracts",
+  },
+  {
+    icon: Rocket,
+    name: "Aerospace",
+    blurb: "Payload integration, launch support services and orbital telemetry programs.",
+    metric: "41 active contracts",
+  },
+  {
+    icon: FileSpreadsheet,
+    name: "Quotation Management",
+    blurb: "Centralised pricing, approvals and contract dispatch across every division.",
+    metric: "1,240 quotations YTD",
+  },
+];
+
+function Home() {
+  const { quotations } = usePortal();
+  const [query, setQuery] = useState("");
+  const [result, setResult] = useState<Quotation | null | undefined>(undefined);
+
+  const track = () => {
+    if (!query.trim()) {
+      toast.error("Enter a reference ID, e.g. OSC-QT-90821.");
+      return;
+    }
+    const found = quotations.find((q) => q.id.toLowerCase() === query.trim().toLowerCase());
+    setResult(found ?? null);
+    if (found) toast.success(`Reference ${found.id} located — status: ${found.status}.`);
+    else toast.error("No quotation found for that reference ID.");
+  };
+
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
-    </div>
+    <>
+      <section className="relative overflow-hidden border-b border-border bg-background">
+        <div className="absolute inset-0 grid-backdrop" />
+        <div className="absolute -right-40 -top-40 size-[32rem] rounded-full bg-accent/10 blur-3xl" />
+        <div className="relative mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:py-28">
+          <div className="inline-flex items-center gap-2 rounded-full border border-accent/30 bg-accent/8 px-3 py-1 text-xs font-medium text-accent">
+            <Activity className="size-3.5" /> Portal status: All systems operational
+          </div>
+          <h1 className="mt-6 max-w-4xl text-4xl font-bold leading-[1.08] text-primary sm:text-5xl lg:text-6xl">
+            Oscorp Industries —{" "}
+            <span className="emerald-text">Advanced Enterprise Quotation & Contract Portal</span>
+          </h1>
+          <p className="mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
+            A single governed workspace for vendor onboarding, quotation submission, approval
+            workflows and verified document dispatch across every Oscorp division.
+          </p>
+
+          <div className="mt-8 flex flex-wrap gap-3">
+            <Button asChild size="lg">
+              <Link to="/quotations">
+                Submit a quotation <ArrowRight className="size-4" />
+              </Link>
+            </Button>
+            <Button asChild size="lg" variant="outline">
+              <Link to="/directory">
+                <ShieldCheck className="size-4" /> Verify personnel
+              </Link>
+            </Button>
+          </div>
+
+          <Card className="mt-12 max-w-3xl glass-card">
+            <CardContent className="p-5">
+              <p className="text-sm font-medium text-primary">Live Quotation Status Tracker</p>
+              <div className="mt-3 flex flex-col gap-2 sm:flex-row">
+                <div className="relative flex-1">
+                  <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+                  <Input
+                    value={query}
+                    onChange={(e) => setQuery(e.target.value)}
+                    onKeyDown={(e) => e.key === "Enter" && track()}
+                    placeholder="Enter Reference ID, e.g. OSC-QT-90821"
+                    className="h-11 pl-9 font-mono"
+                  />
+                </div>
+                <Button className="h-11" onClick={track}>
+                  Track progress
+                </Button>
+              </div>
+
+              {result === null && (
+                <p className="mt-4 rounded-md border border-destructive/30 bg-destructive/5 px-3 py-2 text-sm text-destructive">
+                  No record matches that reference. Check the ID printed on your acknowledgement
+                  email.
+                </p>
+              )}
+              {result && (
+                <div className="mt-4 rounded-lg border border-border bg-secondary/60 p-4">
+                  <div className="flex flex-wrap items-center gap-3">
+                    <span className="font-mono text-sm font-semibold text-primary">{result.id}</span>
+                    <StatusBadge status={result.status} />
+                    <span className="ml-auto text-xs text-muted-foreground">
+                      Filed {result.date}
+                    </span>
+                  </div>
+                  <p className="mt-2 text-sm font-medium text-foreground">{result.title}</p>
+                  <div className="mt-2 grid gap-1 text-xs text-muted-foreground sm:grid-cols-3">
+                    <span>Client: {result.client}</span>
+                    <span>Division: {result.department}</span>
+                    <span>
+                      Value:{" "}
+                      {currency(result.approvedPrice ?? result.budget)}
+                      {result.approvedPrice ? " (approved)" : " (requested)"}
+                    </span>
+                  </div>
+                  {result.adminNotes && (
+                    <p className="mt-2 text-xs text-muted-foreground">
+                      Admin note: {result.adminNotes}
+                    </p>
+                  )}
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6">
+        <h2 className="text-2xl font-semibold text-primary sm:text-3xl">Corporate Divisions</h2>
+        <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
+          Each division operates its own procurement desk with dedicated compliance review and
+          contract dispatch service levels.
+        </p>
+        <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {divisions.map((d) => (
+            <Card
+              key={d.name}
+              className="group glass-card transition-all hover:-translate-y-1 hover:border-accent/40"
+            >
+              <CardContent className="p-6">
+                <span className="grid size-11 place-items-center rounded-lg bg-primary/8 text-primary transition-colors group-hover:bg-accent/15 group-hover:text-accent">
+                  <d.icon className="size-5" />
+                </span>
+                <h3 className="mt-4 text-base font-semibold text-primary">{d.name}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{d.blurb}</p>
+                <p className="mt-4 text-xs font-medium uppercase tracking-wide text-accent">
+                  {d.metric}
+                </p>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      </section>
+
+      <section className="border-y border-border bg-background">
+        <div className="mx-auto grid max-w-7xl gap-6 px-4 py-14 sm:grid-cols-2 sm:px-6 lg:grid-cols-4">
+          {[
+            ["1,240", "Quotations processed YTD"],
+            ["98.4%", "Contract dispatch accuracy"],
+            ["3.2 days", "Median approval turnaround"],
+            ["62", "Verified partner nations"],
+          ].map(([v, l]) => (
+            <div key={l}>
+              <p className="font-display text-3xl font-semibold text-primary">{v}</p>
+              <p className="mt-1 text-sm text-muted-foreground">{l}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+    </>
   );
 }
