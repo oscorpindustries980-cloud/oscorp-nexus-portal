@@ -10,8 +10,8 @@ export interface Quotation {
   title: string;
   department: Department;
   budget: number;
-  approvedPrice?: number;
-  adminNotes?: string;
+  approvedPrice?: number | undefined;
+  adminNotes?: string | undefined;
   notes: string;
   fileName: string;
   date: string;
@@ -26,7 +26,7 @@ export interface PortalUser {
   role: "Admin" | "Vendor" | "Client";
   joined: string;
   status: "Active" | "Blocked";
-  blockReason?: string;
+  blockReason?: string | undefined;
 }
 
 export interface Employee {
