@@ -2,9 +2,9 @@ import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   ArrowRight,
-  Dna,
-  Bot,
-  Rocket,
+  Factory,
+  Cog,
+  Zap,
   FileSpreadsheet,
   Search,
   ShieldCheck,
@@ -25,7 +25,7 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Submit quotations, track reference IDs in real time and manage enterprise contracts across Oscorp Genetics, Robotics and Aerospace divisions.",
+          "Submit quotations, track reference IDs in real time and manage enterprise contracts across Oscorp Heavy Machinery, Industrial Automation and Power & Energy divisions.",
       },
       {
         property: "og:title",
@@ -43,21 +43,21 @@ export const Route = createFileRoute("/")({
 
 const divisions = [
   {
-    icon: Dna,
-    name: "Genetics",
-    blurb: "Sequencing infrastructure, biosafety compliance and lab build-out contracting.",
+    icon: Factory,
+    name: "Heavy Machinery",
+    blurb: "CNC fabrication, press lines, plant build-outs and heavy equipment contracting.",
     metric: "184 active contracts",
   },
   {
-    icon: Bot,
-    name: "Advanced Robotics",
-    blurb: "Autonomous systems, AGV retrofits and Mark-IV control stack integration.",
+    icon: Cog,
+    name: "Industrial Automation",
+    blurb: "PLC and SCADA systems, conveyor retrofits and Mark-IV control panel integration.",
     metric: "97 active contracts",
   },
   {
-    icon: Rocket,
-    name: "Aerospace",
-    blurb: "Payload integration, launch support services and orbital telemetry programs.",
+    icon: Zap,
+    name: "Power & Energy",
+    blurb: "Turbine overhauls, boiler integration and industrial power distribution programs.",
     metric: "41 active contracts",
   },
   {
