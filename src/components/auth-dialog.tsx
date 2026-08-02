@@ -13,7 +13,13 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ADMIN_EMAIL, ADMIN_PASSWORD, usePortal } from "@/lib/portal-store";
+import {
+  ADMIN_EMAIL,
+  ADMIN_PASSWORD,
+  CLIENT_EMAIL,
+  CLIENT_PASSWORD,
+  usePortal,
+} from "@/lib/portal-store";
 
 export function AuthDialog({
   open,
