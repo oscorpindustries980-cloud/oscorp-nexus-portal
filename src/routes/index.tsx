@@ -12,6 +12,8 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 
+import industrialHero from "@/assets/industrial-hero.jpg";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
@@ -87,6 +89,14 @@ function Home() {
   return (
     <>
       <section className="relative overflow-hidden border-b border-border bg-background">
+        <img
+          src={industrialHero}
+          alt="Oscorp Industries heavy machinery assembly hall at dusk"
+          width={1920}
+          height={1088}
+          className="absolute inset-0 size-full object-cover opacity-[0.18]"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-background via-background/85 to-background/60" />
         <div className="absolute inset-0 grid-backdrop" />
         <div className="absolute -right-40 -top-40 size-[32rem] rounded-full bg-accent/10 blur-3xl" />
         <div className="relative mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:py-28">

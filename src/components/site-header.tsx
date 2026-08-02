@@ -20,6 +20,7 @@ import { cn } from "@/lib/utils";
 const links = [
   { to: "/", label: "Overview" },
   { to: "/quotations", label: "Submit Quotation" },
+  { to: "/employee", label: "Employee Upload" },
   { to: "/directory", label: "Employee Directory" },
   { to: "/admin", label: "Admin Portal" },
 ] as const;

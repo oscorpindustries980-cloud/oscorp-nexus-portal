@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as DirectoryRouteImport } from './routes/directory'
+import { Route as EmployeeRouteImport } from './routes/employee'
 import { Route as QuotationsRouteImport } from './routes/quotations'
 
 const IndexRoute = IndexRouteImport.update({
@@ -29,6 +30,11 @@ const DirectoryRoute = DirectoryRouteImport.update({
   path: '/directory',
   getParentRoute: () => rootRouteImport,
 } as any)
+const EmployeeRoute = EmployeeRouteImport.update({
+  id: '/employee',
+  path: '/employee',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const QuotationsRoute = QuotationsRouteImport.update({
   id: '/quotations',
   path: '/quotations',
@@ -39,12 +45,14 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
   '/directory': typeof DirectoryRoute
+  '/employee': typeof EmployeeRoute
   '/quotations': typeof QuotationsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
   '/directory': typeof DirectoryRoute
+  '/employee': typeof EmployeeRoute
   '/quotations': typeof QuotationsRoute
 }
 export interface FileRoutesById {
@@ -52,20 +60,22 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
   '/directory': typeof DirectoryRoute
+  '/employee': typeof EmployeeRoute
   '/quotations': typeof QuotationsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/admin' | '/directory' | '/quotations'
+  fullPaths: '/' | '/admin' | '/directory' | '/employee' | '/quotations'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/admin' | '/directory' | '/quotations'
-  id: '__root__' | '/' | '/admin' | '/directory' | '/quotations'
+  to: '/' | '/admin' | '/directory' | '/employee' | '/quotations'
+  id: '__root__' | '/' | '/admin' | '/directory' | '/employee' | '/quotations'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRoute: typeof AdminRoute
   DirectoryRoute: typeof DirectoryRoute
+  EmployeeRoute: typeof EmployeeRoute
   QuotationsRoute: typeof QuotationsRoute
 }
 
@@ -92,6 +102,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DirectoryRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/employee': {
+      id: '/employee'
+      path: '/employee'
+      fullPath: '/employee'
+      preLoaderRoute: typeof EmployeeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/quotations': {
       id: '/quotations'
       path: '/quotations'
@@ -106,6 +123,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRoute,
   DirectoryRoute: DirectoryRoute,
+  EmployeeRoute: EmployeeRoute,
   QuotationsRoute: QuotationsRoute,
 }
 export const routeTree = rootRouteImport
