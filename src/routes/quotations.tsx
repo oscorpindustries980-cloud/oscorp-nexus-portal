@@ -38,7 +38,7 @@ export const Route = createFileRoute("/quotations")({
   component: QuotationsPage,
 });
 
-const departments: Department[] = ["Genetics", "Robotics", "Aerospace", "HR"];
+const departments: Department[] = ["Heavy Machinery", "Industrial Automation", "Power & Energy", "HR"];
 
 function QuotationsPage() {
   const { submitQuotation, isBlocked, flagSuspension, user } = usePortal();
@@ -46,7 +46,7 @@ function QuotationsPage() {
   const [email, setEmail] = useState("angeltripathi.2802@gmail.com");
   const [title, setTitle] = useState("");
   const [budget, setBudget] = useState("");
-  const [department, setDepartment] = useState<Department>("Genetics");
+  const [department, setDepartment] = useState<Department>("Heavy Machinery");
   const [notes, setNotes] = useState("");
   const [fileName, setFileName] = useState("");
   const [dragging, setDragging] = useState(false);

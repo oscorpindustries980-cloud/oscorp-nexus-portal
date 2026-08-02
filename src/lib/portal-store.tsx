@@ -1,7 +1,7 @@
 import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from "react";
 
 export type QuotationStatus = "Submitted" | "Under Review" | "Approved" | "Rejected";
-export type Department = "Genetics" | "Robotics" | "Aerospace" | "HR";
+export type Department = "Heavy Machinery" | "Industrial Automation" | "Power & Energy" | "HR";
 
 export interface Quotation {
   id: string;
@@ -40,6 +40,8 @@ export interface Employee {
 
 export const ADMIN_EMAIL = "admin@oscorp.com";
 export const ADMIN_PASSWORD = "Admin2026!";
+export const CLIENT_EMAIL = "angeltripathi.2802@gmail.com";
+export const CLIENT_PASSWORD = "Angel@2026";
 
 const today = "2026-08-01";
 
@@ -48,11 +50,11 @@ const seedQuotations: Quotation[] = [
     id: "OSC-QT-90821",
     client: "Shreya Kumari",
     email: "shreya.kumari@oscorp.com",
-    title: "Genome Sequencing Cluster Expansion",
-    department: "Genetics",
+    title: "CNC Machining Line Expansion — Plant 04",
+    department: "Heavy Machinery",
     budget: 480000,
-    notes: "Phase II expansion of the Queens sequencing lab with cold-chain logistics.",
-    fileName: "genetics-cluster-proposal.pdf",
+    notes: "Phase II expansion of the Queens fabrication plant with heavy-haul logistics.",
+    fileName: "machining-line-proposal.pdf",
     date: "2026-07-12",
     status: "Under Review",
   },
@@ -60,25 +62,25 @@ const seedQuotations: Quotation[] = [
     id: "OSC-QT-90822",
     client: "Angel Tripathi",
     email: "angeltripathi.2802@gmail.com",
-    title: "Autonomous Warehouse Robotics Retrofit",
-    department: "Robotics",
+    title: "Conveyor & PLC Automation Retrofit",
+    department: "Industrial Automation",
     budget: 1250000,
-    notes: "Retrofit of 42 AGV units with Oscorp Mark-IV control stacks.",
-    fileName: "robotics-retrofit-scope.docx",
+    notes: "Retrofit of 42 conveyor lines with Oscorp Mark-IV PLC control panels.",
+    fileName: "automation-retrofit-scope.docx",
     date: "2026-07-19",
     status: "Approved",
     approvedPrice: 1180000,
-    adminNotes: "Approved with 5.6% value engineering on the control stacks.",
+    adminNotes: "Approved with 5.6% value engineering on the control panels.",
   },
   {
     id: "OSC-QT-90823",
     client: "Marcus Vale",
     email: "m.vale@valedynamics.io",
-    title: "Orbital Payload Integration Services",
-    department: "Aerospace",
+    title: "Turbine Overhaul & Boiler Integration",
+    department: "Power & Energy",
     budget: 3400000,
-    notes: "Integration support for the Helios-3 payload bay.",
-    fileName: "aerospace-payload.zip",
+    notes: "Overhaul support for the Helios-3 turbine hall and boiler feed systems.",
+    fileName: "turbine-overhaul-scope.zip",
     date: "2026-07-24",
     status: "Submitted",
   },
@@ -119,9 +121,9 @@ const seedUsers: PortalUser[] = [
   {
     id: "USR-003",
     name: "Angel Tripathi",
-    email: "angeltripathi.2802@gmail.com",
-    password: "Vendor2026!",
-    role: "Client",
+    email: CLIENT_EMAIL,
+    password: CLIENT_PASSWORD,
+    role: "Admin",
     joined: "2025-09-02",
     status: "Active",
   },
@@ -158,24 +160,24 @@ export const employees: Employee[] = [
   {
     ref: "OSC-IN-90822",
     name: "Dr. Miles Warren",
-    title: "Principal Geneticist",
-    division: "Genetics",
+    title: "Principal Plant Engineer",
+    division: "Heavy Machinery",
     verified: true,
     dispatch: "Dispatched",
   },
   {
     ref: "OSC-IN-90833",
     name: "Elena Straub",
-    title: "Robotics Program Director",
-    division: "Robotics",
+    title: "Automation Program Director",
+    division: "Industrial Automation",
     verified: true,
     dispatch: "Awaiting Signature",
   },
   {
     ref: "OSC-IN-90844",
     name: "Kwame Adjei",
-    title: "Aerospace Systems Lead",
-    division: "Aerospace",
+    title: "Power Systems Lead",
+    division: "Power & Energy",
     verified: false,
     dispatch: "Queued",
   },
@@ -191,7 +193,7 @@ export const employees: Employee[] = [
     ref: "OSC-IN-90866",
     name: "Tomas Lindqvist",
     title: "Senior Procurement Analyst",
-    division: "Robotics",
+    division: "Industrial Automation",
     verified: true,
     dispatch: "Queued",
   },

@@ -72,9 +72,9 @@ function DirectoryPage() {
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="all">All divisions</SelectItem>
-            <SelectItem value="Genetics">Genetics</SelectItem>
-            <SelectItem value="Robotics">Robotics</SelectItem>
-            <SelectItem value="Aerospace">Aerospace</SelectItem>
+            <SelectItem value="Heavy Machinery">Heavy Machinery</SelectItem>
+            <SelectItem value="Industrial Automation">Industrial Automation</SelectItem>
+            <SelectItem value="Power & Energy">Power &amp; Energy</SelectItem>
             <SelectItem value="HR">HR</SelectItem>
           </SelectContent>
         </Select>
