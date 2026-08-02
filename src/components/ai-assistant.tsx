@@ -14,7 +14,7 @@ interface Msg {
 const faqs: { q: string; a: string }[] = [
   {
     q: "How long does quotation review take?",
-    a: "Standard commercial quotations are triaged within 24 hours and receive a formal decision in 3–5 business days. Aerospace and Genetics packages requiring compliance review may take up to 10 business days.",
+    a: "Standard commercial quotations are triaged within 24 hours and receive a formal decision in 3–5 business days. Power & Energy and Heavy Machinery packages requiring compliance review may take up to 10 business days.",
   },
   {
     q: "How are documents dispatched?",
