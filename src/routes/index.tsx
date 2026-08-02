@@ -2,9 +2,9 @@ import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   ArrowRight,
-  Dna,
-  Bot,
-  Rocket,
+  Factory,
+  Cog,
+  Zap,
   FileSpreadsheet,
   Search,
   ShieldCheck,

@@ -83,18 +83,32 @@ export function AuthDialog({
             >
               <LogIn className="size-4" /> Sign in
             </Button>
-            <button
-              type="button"
-              className="w-full rounded-md border border-dashed border-accent/40 bg-accent/5 p-3 text-left text-xs text-muted-foreground transition-colors hover:bg-accent/10"
-              onClick={() => {
-                setEmail(ADMIN_EMAIL);
-                setPassword(ADMIN_PASSWORD);
-              }}
-            >
-              <span className="font-semibold text-accent">Admin demo credentials</span>
-              <br />
-              {ADMIN_EMAIL} / {ADMIN_PASSWORD} — click to autofill.
-            </button>
+            <div className="grid gap-2 sm:grid-cols-2">
+              <button
+                type="button"
+                className="rounded-md border border-dashed border-accent/40 bg-accent/5 p-3 text-left text-xs text-muted-foreground transition-colors hover:bg-accent/10"
+                onClick={() => {
+                  setEmail(ADMIN_EMAIL);
+                  setPassword(ADMIN_PASSWORD);
+                }}
+              >
+                <span className="font-semibold text-accent">Admin access</span>
+                <br />
+                {ADMIN_EMAIL} / {ADMIN_PASSWORD}
+              </button>
+              <button
+                type="button"
+                className="rounded-md border border-dashed border-accent/40 bg-accent/5 p-3 text-left text-xs text-muted-foreground transition-colors hover:bg-accent/10"
+                onClick={() => {
+                  setEmail(CLIENT_EMAIL);
+                  setPassword(CLIENT_PASSWORD);
+                }}
+              >
+                <span className="font-semibold text-accent">Your account</span>
+                <br />
+                {CLIENT_EMAIL} / {CLIENT_PASSWORD}
+              </button>
+            </div>
           </TabsContent>
 
           <TabsContent value="register" className="space-y-4 pt-4">
