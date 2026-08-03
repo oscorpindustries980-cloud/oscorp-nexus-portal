@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { toast } from "sonner";
-import { ShieldCheck, LogIn, UserPlus } from "lucide-react";
+import { ShieldCheck, LogIn, UserPlus, IdCard } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -13,13 +13,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import {
-  ADMIN_EMAIL,
-  ADMIN_PASSWORD,
-  CLIENT_EMAIL,
-  CLIENT_PASSWORD,
-  usePortal,
-} from "@/lib/portal-store";
+import { usePortal } from "@/lib/portal-store";
 
 export function AuthDialog({
   open,
@@ -28,7 +22,9 @@ export function AuthDialog({
   open: boolean;
   onOpenChange: (v: boolean) => void;
 }) {
-  const { login, register } = usePortal();
+  const { login, register, loginEmployee } = usePortal();
+  const [empRef, setEmpRef] = useState("");
+  const [empPass, setEmpPass] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
@@ -48,11 +44,56 @@ export function AuthDialog({
           </DialogDescription>
         </DialogHeader>
 
-        <Tabs defaultValue="login">
-          <TabsList className="grid w-full grid-cols-2">
+        <Tabs defaultValue="employee">
+          <TabsList className="grid w-full grid-cols-3">
+            <TabsTrigger value="employee">Employee</TabsTrigger>
             <TabsTrigger value="login">Sign in</TabsTrigger>
             <TabsTrigger value="register">Register</TabsTrigger>
           </TabsList>
+
+          <TabsContent value="employee" className="space-y-4 pt-4">
+            <div className="space-y-1.5">
+              <Label htmlFor="emp-login-ref">Personnel reference ID</Label>
+              <Input
+                id="emp-login-ref"
+                value={empRef}
+                onChange={(e) => setEmpRef(e.target.value.toUpperCase())}
+                placeholder="OSC-IN-90821"
+                className="font-mono tracking-wide"
+              />
+            </div>
+            <div className="space-y-1.5">
+              <Label htmlFor="emp-login-pass">Personnel passcode</Label>
+              <Input
+                id="emp-login-pass"
+                type="password"
+                value={empPass}
+                onChange={(e) => setEmpPass(e.target.value)}
+                placeholder="••••••••"
+              />
+            </div>
+            <Button
+              className="w-full"
+              onClick={() => {
+                const res = loginEmployee(empRef, empPass);
+                if (res.ok) {
+                  toast.success(res.message, {
+                    description: "Personnel workspace unlocked.",
+                  });
+                  onOpenChange(false);
+                } else {
+                  toast.error(res.message);
+                }
+              }}
+            >
+              <IdCard className="size-4" /> Verify & continue
+            </Button>
+            <p className="rounded-md border border-border bg-secondary/60 p-3 text-xs text-muted-foreground">
+              Issued at onboarding by Oscorp IT. Format:{" "}
+              <span className="font-mono text-foreground">Oscorp@</span> followed by the last five
+              digits of your reference ID. Contact the HR desk to rotate it.
+            </p>
+          </TabsContent>
 
           <TabsContent value="login" className="space-y-4 pt-4">
             <div className="space-y-1.5">
@@ -89,32 +130,6 @@ export function AuthDialog({
             >
               <LogIn className="size-4" /> Sign in
             </Button>
-            <div className="grid gap-2 sm:grid-cols-2">
-              <button
-                type="button"
-                className="rounded-md border border-dashed border-accent/40 bg-accent/5 p-3 text-left text-xs text-muted-foreground transition-colors hover:bg-accent/10"
-                onClick={() => {
-                  setEmail(ADMIN_EMAIL);
-                  setPassword(ADMIN_PASSWORD);
-                }}
-              >
-                <span className="font-semibold text-accent">Admin access</span>
-                <br />
-                {ADMIN_EMAIL} / {ADMIN_PASSWORD}
-              </button>
-              <button
-                type="button"
-                className="rounded-md border border-dashed border-accent/40 bg-accent/5 p-3 text-left text-xs text-muted-foreground transition-colors hover:bg-accent/10"
-                onClick={() => {
-                  setEmail(CLIENT_EMAIL);
-                  setPassword(CLIENT_PASSWORD);
-                }}
-              >
-                <span className="font-semibold text-accent">Your account</span>
-                <br />
-                {CLIENT_EMAIL} / {CLIENT_PASSWORD}
-              </button>
-            </div>
           </TabsContent>
 
           <TabsContent value="register" className="space-y-4 pt-4">
