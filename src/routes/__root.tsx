@@ -82,15 +82,21 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Oscorp Industries — Enterprise Quotation Portal" },
+      { title: "Oscorp Industries — Advanced Enterprise Quotation & Contract Portal" },
       {
         name: "description",
         content:
-          "Oscorp Industries Corporation enterprise quotation, contract and vendor management portal.",
+          "Oscorp industries",
       },
       { name: "author", content: "Oscorp Industries Corporation" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { property: "og:title", content: "Oscorp Industries — Advanced Enterprise Quotation & Contract Portal" },
+      { name: "twitter:title", content: "Oscorp Industries — Advanced Enterprise Quotation & Contract Portal" },
+      { property: "og:description", content: "Oscorp industries" },
+      { name: "twitter:description", content: "Oscorp industries" },
+      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/b5474182-8720-479f-add4-37590107c243" },
+      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/b5474182-8720-479f-add4-37590107c243" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
@@ -100,7 +106,6 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         rel: "stylesheet",
         href: "https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap",
       },
-      { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
     ],
   }),
   shellComponent: RootShell,

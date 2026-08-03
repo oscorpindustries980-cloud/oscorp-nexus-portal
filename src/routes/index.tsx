@@ -27,7 +27,7 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Submit quotations, track reference IDs in real time and manage enterprise contracts across Oscorp Heavy Machinery, Industrial Automation and Power & Energy divisions.",
+          "Oscorp industries",
       },
       {
         property: "og:title",
@@ -36,7 +36,7 @@ export const Route = createFileRoute("/")({
       {
         property: "og:description",
         content:
-          "Enterprise-grade quotation submission, contract approval and vendor verification for Oscorp Industries Corporation.",
+          "Oscorp industries",
       },
     ],
   }),
