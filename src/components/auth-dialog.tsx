@@ -13,7 +13,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { usePortal } from "@/lib/portal-store";
+import { usePortal, employeePasscode, employees } from "@/lib/portal-store";
+import { OtpDialog } from "@/components/otp-dialog";
 
 export function AuthDialog({
   open,
@@ -30,6 +31,16 @@ export function AuthDialog({
   const [name, setName] = useState("");
   const [regEmail, setRegEmail] = useState("");
   const [regPassword, setRegPassword] = useState("");
+  const [otpOpen, setOtpOpen] = useState(false);
+  const [otpIdentifier, setOtpIdentifier] = useState("");
+  const [pendingAction, setPendingAction] = useState<(() => void) | null>(null);
+
+  const requireOtp = (identifier: string, action: () => void) => {
+    setOtpIdentifier(identifier);
+    setPendingAction(() => action);
+    setOtpOpen(true);
+  };
+
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -75,19 +86,31 @@ export function AuthDialog({
             <Button
               className="w-full"
               onClick={() => {
-                const res = loginEmployee(empRef, empPass);
-                if (res.ok) {
-                  toast.success(res.message, {
-                    description: "Personnel workspace unlocked.",
-                  });
-                  onOpenChange(false);
-                } else {
-                  toast.error(res.message);
+                const match = employees.find(
+                  (e) => e.ref.toLowerCase() === empRef.trim().toLowerCase(),
+                );
+                if (!match) {
+                  toast.error("No personnel record found for this reference ID.");
+                  return;
                 }
+                if (empPass !== employeePasscode(match.ref)) {
+                  toast.error("Incorrect personnel passcode.");
+                  return;
+                }
+                requireOtp(match.email, () => {
+                  const res = loginEmployee(match.ref, empPass);
+                  if (res.ok) {
+                    toast.success(res.message, { description: "Personnel workspace unlocked." });
+                    onOpenChange(false);
+                  } else {
+                    toast.error(res.message);
+                  }
+                });
               }}
             >
               <IdCard className="size-4" /> Verify & continue
             </Button>
+
             <p className="rounded-md border border-border bg-secondary/60 p-3 text-xs text-muted-foreground">
               Issued at onboarding by Oscorp IT. Format:{" "}
               <span className="font-mono text-foreground">Oscorp@</span> followed by the last five
@@ -162,20 +185,34 @@ export function AuthDialog({
                   toast.error("Enter a name, email and a password of at least 6 characters.");
                   return;
                 }
-                const res = register(name.trim(), regEmail, regPassword);
-                if (res.ok) {
-                  toast.success(res.message);
-                  onOpenChange(false);
-                } else {
-                  toast.error(res.message);
-                }
+                requireOtp(regEmail.trim(), () => {
+                  const res = register(name.trim(), regEmail, regPassword);
+                  if (res.ok) {
+                    toast.success(res.message);
+                    onOpenChange(false);
+                  } else {
+                    toast.error(res.message);
+                  }
+                });
               }}
             >
-              <UserPlus className="size-4" /> Create vendor account
+              <UserPlus className="size-4" /> Verify OTP & create account
             </Button>
           </TabsContent>
         </Tabs>
       </DialogContent>
+
+      <OtpDialog
+        open={otpOpen}
+        onOpenChange={setOtpOpen}
+        defaultIdentifier={otpIdentifier}
+        purpose="A one-time passcode has to be confirmed before the Oscorp portal session opens."
+        onVerified={() => {
+          pendingAction?.();
+          setPendingAction(null);
+        }}
+      />
     </Dialog>
   );
+
 }
