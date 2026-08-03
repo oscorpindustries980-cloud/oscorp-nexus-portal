@@ -13,7 +13,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { usePortal } from "@/lib/portal-store";
+import { usePortal, employeePasscode, employees } from "@/lib/portal-store";
+import { OtpDialog } from "@/components/otp-dialog";
 
 export function AuthDialog({
   open,
@@ -30,6 +31,16 @@ export function AuthDialog({
   const [name, setName] = useState("");
   const [regEmail, setRegEmail] = useState("");
   const [regPassword, setRegPassword] = useState("");
+  const [otpOpen, setOtpOpen] = useState(false);
+  const [otpIdentifier, setOtpIdentifier] = useState("");
+  const [pendingAction, setPendingAction] = useState<(() => void) | null>(null);
+
+  const requireOtp = (identifier: string, action: () => void) => {
+    setOtpIdentifier(identifier);
+    setPendingAction(() => action);
+    setOtpOpen(true);
+  };
+
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
