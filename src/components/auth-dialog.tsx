@@ -86,19 +86,31 @@ export function AuthDialog({
             <Button
               className="w-full"
               onClick={() => {
-                const res = loginEmployee(empRef, empPass);
-                if (res.ok) {
-                  toast.success(res.message, {
-                    description: "Personnel workspace unlocked.",
-                  });
-                  onOpenChange(false);
-                } else {
-                  toast.error(res.message);
+                const match = employees.find(
+                  (e) => e.ref.toLowerCase() === empRef.trim().toLowerCase(),
+                );
+                if (!match) {
+                  toast.error("No personnel record found for this reference ID.");
+                  return;
                 }
+                if (empPass !== employeePasscode(match.ref)) {
+                  toast.error("Incorrect personnel passcode.");
+                  return;
+                }
+                requireOtp(match.email, () => {
+                  const res = loginEmployee(match.ref, empPass);
+                  if (res.ok) {
+                    toast.success(res.message, { description: "Personnel workspace unlocked." });
+                    onOpenChange(false);
+                  } else {
+                    toast.error(res.message);
+                  }
+                });
               }}
             >
               <IdCard className="size-4" /> Verify & continue
             </Button>
+
             <p className="rounded-md border border-border bg-secondary/60 p-3 text-xs text-muted-foreground">
               Issued at onboarding by Oscorp IT. Format:{" "}
               <span className="font-mono text-foreground">Oscorp@</span> followed by the last five
