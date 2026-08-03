@@ -173,20 +173,34 @@ export function AuthDialog({
                   toast.error("Enter a name, email and a password of at least 6 characters.");
                   return;
                 }
-                const res = register(name.trim(), regEmail, regPassword);
-                if (res.ok) {
-                  toast.success(res.message);
-                  onOpenChange(false);
-                } else {
-                  toast.error(res.message);
-                }
+                requireOtp(regEmail.trim(), () => {
+                  const res = register(name.trim(), regEmail, regPassword);
+                  if (res.ok) {
+                    toast.success(res.message);
+                    onOpenChange(false);
+                  } else {
+                    toast.error(res.message);
+                  }
+                });
               }}
             >
-              <UserPlus className="size-4" /> Create vendor account
+              <UserPlus className="size-4" /> Verify OTP & create account
             </Button>
           </TabsContent>
         </Tabs>
       </DialogContent>
+
+      <OtpDialog
+        open={otpOpen}
+        onOpenChange={setOtpOpen}
+        defaultIdentifier={otpIdentifier}
+        purpose="A one-time passcode has to be confirmed before the Oscorp portal session opens."
+        onVerified={() => {
+          pendingAction?.();
+          setPendingAction(null);
+        }}
+      />
     </Dialog>
   );
+
 }
