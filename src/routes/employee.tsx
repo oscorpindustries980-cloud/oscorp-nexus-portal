@@ -1,6 +1,6 @@
 import { useState, type DragEvent } from "react";
 import { createFileRoute } from "@tanstack/react-router";
-import { BadgeCheck, FileUp, IdCard, Paperclip, Send, Upload } from "lucide-react";
+import { BadgeCheck, FileUp, IdCard, Lock, Paperclip, Send, Upload } from "lucide-react";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
@@ -16,7 +16,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
-import { employees, usePortal, type Department } from "@/lib/portal-store";
+import { AuthDialog } from "@/components/auth-dialog";
+import { usePortal, type Department } from "@/lib/portal-store";
 
 export const Route = createFileRoute("/employee")({
   head: () => ({
@@ -48,10 +49,37 @@ const departments: Department[] = [
 ];
 
 function EmployeeUploadPage() {
-  const { submitQuotation, isBlocked, flagSuspension } = usePortal();
-  const [ref, setRef] = useState("");
-  const [name, setName] = useState("");
-  const [division, setDivision] = useState<Department>("Heavy Machinery");
+  const { employee } = usePortal();
+  const [authOpen, setAuthOpen] = useState(false);
+
+  if (!employee) {
+    return (
+      <div className="mx-auto flex max-w-lg flex-col items-center px-4 py-24 text-center">
+        <span className="grid size-14 place-items-center rounded-xl forest-panel">
+          <Lock className="size-6 text-emerald-glow" />
+        </span>
+        <h1 className="mt-6 text-2xl font-semibold text-primary">Personnel sign-in required</h1>
+        <p className="mt-2 text-sm text-muted-foreground">
+          Sign in with your Oscorp personnel reference ID to open your upload desk. Your name,
+          grade, division and posting are loaded automatically from the HR record.
+        </p>
+        <Button className="mt-6" onClick={() => setAuthOpen(true)}>
+          <IdCard className="size-4" /> Sign in with reference ID
+        </Button>
+        <AuthDialog open={authOpen} onOpenChange={setAuthOpen} />
+      </div>
+    );
+  }
+
+  return <EmployeeDesk />;
+}
+
+function EmployeeDesk() {
+  const { submitQuotation, isBlocked, flagSuspension, employee, logout } = usePortal();
+  const emp = employee!;
+  const ref = emp.ref;
+  const name = emp.name;
+  const [division, setDivision] = useState<Department>(emp.division);
   const [title, setTitle] = useState("");
   const [value, setValue] = useState("");
   const [notes, setNotes] = useState("");
@@ -71,29 +99,19 @@ function EmployeeUploadPage() {
     attach(e.dataTransfer.files?.[0]);
   };
 
-  const lookup = (value: string) => {
-    setRef(value);
-    const match = employees.find((e) => e.ref.toLowerCase() === value.trim().toLowerCase());
-    if (match) {
-      setName(match.name);
-      setDivision(match.division);
-      toast.success(`Personnel verified — ${match.name}, ${match.title}.`);
-    }
-  };
-
   const submit = () => {
     if (isBlocked) {
       flagSuspension();
       toast.error("Your account has been suspended by Oscorp Admin.");
       return;
     }
-    if (!ref.trim() || !name.trim() || !title.trim() || !fileName) {
-      toast.error("Enter your reference ID, name, document title and attach a file.");
+    if (!title.trim() || !fileName) {
+      toast.error("Enter a document title and attach a file.");
       return;
     }
     const id = submitQuotation({
-      client: name.trim(),
-      email: `${ref.trim().toLowerCase()}@oscorp.com`,
+      client: name,
+      email: emp.email,
       title: title.trim(),
       department: division,
       budget: Number(value) || 0,
@@ -126,24 +144,55 @@ function EmployeeUploadPage() {
       </p>
 
       <Card className="mt-8 glass-card">
+        <CardContent className="flex flex-wrap items-center gap-5 p-5">
+          <span className="grid size-14 place-items-center rounded-xl forest-panel font-display text-lg font-semibold text-emerald-glow">
+            {emp.name
+              .split(" ")
+              .map((n) => n[0])
+              .join("")
+              .slice(0, 2)}
+          </span>
+          <div className="min-w-40">
+            <p className="flex items-center gap-1.5 font-display text-lg font-semibold text-primary">
+              {emp.name}
+              {emp.verified && <BadgeCheck className="size-4 text-accent" />}
+            </p>
+            <p className="text-sm text-muted-foreground">{emp.title}</p>
+          </div>
+          <dl className="grid flex-1 gap-x-8 gap-y-2 text-xs sm:grid-cols-2 lg:grid-cols-3">
+            {[
+              ["Reference ID", emp.ref],
+              ["Division", emp.division],
+              ["Grade", emp.grade],
+              ["Posting", emp.location],
+              ["Work email", emp.email],
+              ["Joined", emp.joined],
+            ].map(([k, v]) => (
+              <div key={k}>
+                <dt className="uppercase tracking-wide text-muted-foreground">{k}</dt>
+                <dd className="font-medium text-foreground">{v}</dd>
+              </div>
+            ))}
+          </dl>
+          <Button variant="outline" size="sm" onClick={logout}>
+            Sign out
+          </Button>
+        </CardContent>
+      </Card>
+
+      <Card className="mt-6 glass-card">
         <CardHeader>
           <CardTitle className="text-base">Document lodgement</CardTitle>
         </CardHeader>
         <CardContent className="space-y-5">
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="space-y-1.5">
-              <Label htmlFor="emp-ref">Employee reference ID</Label>
-              <Input
-                id="emp-ref"
-                value={ref}
-                onChange={(e) => lookup(e.target.value)}
-                placeholder="OSC-IN-90821"
-                className="font-mono"
-              />
+              <Label>Employee reference ID</Label>
+              <Input value={ref} readOnly className="font-mono bg-secondary/60" />
             </div>
             <div className="space-y-1.5">
-              <Label htmlFor="emp-name">Full name</Label>
-              <Input id="emp-name" value={name} onChange={(e) => setName(e.target.value)} />
+              <Label>Full name</Label>
+              <Input value={name} readOnly className="bg-secondary/60" />
             </div>
             <div className="space-y-1.5">
               <Label>Division</Label>

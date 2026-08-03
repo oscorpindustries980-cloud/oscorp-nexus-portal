@@ -28,7 +28,7 @@ const links = [
 export function SiteHeader() {
   const [authOpen, setAuthOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const { user, isAdmin, logout } = usePortal();
+  const { user, isAdmin, logout, employee } = usePortal();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
 
   return (
@@ -69,6 +69,37 @@ export function SiteHeader() {
               <ShieldCheck className="mr-1 size-3" /> Admin session
             </Badge>
           )}
+          {!user && employee && (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" size="sm">
+                  <UserCircle2 className="size-4" />
+                  <span className="hidden sm:inline">{employee.name.split(" ")[0]}</span>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-60">
+                <DropdownMenuLabel className="text-xs font-normal text-muted-foreground">
+                  {employee.ref}
+                  <span className="mt-1 block font-medium text-foreground">
+                    {employee.name} · {employee.title}
+                  </span>
+                  <span className="block">{employee.division}</span>
+                </DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem asChild>
+                  <Link to="/employee">My upload desk</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={() => {
+                    logout();
+                    toast.success("Personnel session ended.");
+                  }}
+                >
+                  <LogOut className="size-4" /> Sign out
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          )}
           {user ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -100,7 +131,7 @@ export function SiteHeader() {
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
-          ) : (
+          ) : employee ? null : (
             <Button size="sm" onClick={() => setAuthOpen(true)}>
               <ShieldCheck className="size-4" /> Portal Login
             </Button>

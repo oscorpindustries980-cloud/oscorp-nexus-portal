@@ -36,6 +36,15 @@ export interface Employee {
   division: Department;
   verified: boolean;
   dispatch: "Dispatched" | "Queued" | "Awaiting Signature";
+  email: string;
+  grade: string;
+  location: string;
+  joined: string;
+}
+
+/** Personnel passcode rule issued by Oscorp IT on onboarding. */
+export function employeePasscode(ref: string) {
+  return `Oscorp@${ref.trim().slice(-5)}`;
 }
 
 export const ADMIN_EMAIL = "admin@oscorp.com";
@@ -151,6 +160,10 @@ const seedUsers: PortalUser[] = [
 export const employees: Employee[] = [
   {
     ref: "OSC-IN-90821",
+    email: "shreya.kumari@oscorp.com",
+    grade: "G-7 · Contracts",
+    location: "Queens Plant 04, NY",
+    joined: "2023-06-12",
     name: "Shreya Kumari",
     title: "Quotation Specialist",
     division: "HR",
@@ -159,6 +172,10 @@ export const employees: Employee[] = [
   },
   {
     ref: "OSC-IN-90822",
+    email: "m.warren@oscorp.com",
+    grade: "G-9 · Engineering",
+    location: "Fabrication Works, NJ",
+    joined: "2019-02-04",
     name: "Dr. Miles Warren",
     title: "Principal Plant Engineer",
     division: "Heavy Machinery",
@@ -167,6 +184,10 @@ export const employees: Employee[] = [
   },
   {
     ref: "OSC-IN-90833",
+    email: "e.straub@oscorp.com",
+    grade: "G-8 · Automation",
+    location: "Control Systems Hub, MI",
+    joined: "2021-10-18",
     name: "Elena Straub",
     title: "Automation Program Director",
     division: "Industrial Automation",
@@ -175,6 +196,10 @@ export const employees: Employee[] = [
   },
   {
     ref: "OSC-IN-90844",
+    email: "k.adjei@oscorp.com",
+    grade: "G-8 · Power Systems",
+    location: "Helios-3 Turbine Hall, TX",
+    joined: "2022-04-25",
     name: "Kwame Adjei",
     title: "Power Systems Lead",
     division: "Power & Energy",
@@ -183,6 +208,10 @@ export const employees: Employee[] = [
   },
   {
     ref: "OSC-IN-90855",
+    email: "p.raghavan@oscorp.com",
+    grade: "G-7 · Compliance",
+    location: "Corporate HQ, NY",
+    joined: "2020-08-03",
     name: "Priya Raghavan",
     title: "Contract Compliance Officer",
     division: "HR",
@@ -191,6 +220,10 @@ export const employees: Employee[] = [
   },
   {
     ref: "OSC-IN-90866",
+    email: "t.lindqvist@oscorp.com",
+    grade: "G-6 · Procurement",
+    location: "Central Procurement, IL",
+    joined: "2024-01-15",
     name: "Tomas Lindqvist",
     title: "Senior Procurement Analyst",
     division: "Industrial Automation",
@@ -201,6 +234,8 @@ export const employees: Employee[] = [
 
 interface PortalContextValue {
   user: PortalUser | null;
+  employee: Employee | null;
+  loginEmployee: (ref: string, passcode: string) => { ok: boolean; message: string };
   users: PortalUser[];
   quotations: Quotation[];
   isAdmin: boolean;
@@ -234,6 +269,24 @@ export function PortalProvider({ children }: { children: ReactNode }) {
   const [quotations, setQuotations] = useState<Quotation[]>(seedQuotations);
   const [userId, setUserId] = useState<string | null>(null);
   const [suspensionVisible, setSuspensionVisible] = useState(false);
+  const [employeeRef, setEmployeeRef] = useState<string | null>(null);
+
+  const employee = useMemo(
+    () => employees.find((e) => e.ref === employeeRef) ?? null,
+    [employeeRef],
+  );
+
+  const loginEmployee = useCallback((ref: string, passcode: string) => {
+    const match = employees.find(
+      (e) => e.ref.toLowerCase() === ref.trim().toLowerCase(),
+    );
+    if (!match) return { ok: false, message: "No personnel record found for this reference ID." };
+    if (passcode !== employeePasscode(match.ref)) {
+      return { ok: false, message: "Incorrect personnel passcode." };
+    }
+    setEmployeeRef(match.ref);
+    return { ok: true, message: `Verified — ${match.name}, ${match.title}.` };
+  }, []);
 
   const user = useMemo(() => users.find((u) => u.id === userId) ?? null, [users, userId]);
 
@@ -279,6 +332,7 @@ export function PortalProvider({ children }: { children: ReactNode }) {
 
   const logout = useCallback(() => {
     setUserId(null);
+    setEmployeeRef(null);
     setSuspensionVisible(false);
   }, []);
 
@@ -325,6 +379,8 @@ export function PortalProvider({ children }: { children: ReactNode }) {
 
   const value: PortalContextValue = {
     user,
+    employee,
+    loginEmployee,
     users,
     quotations,
     isAdmin: user?.role === "Admin",
