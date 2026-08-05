@@ -200,6 +200,19 @@ const seedUsers: PortalUser[] = [
 
 export const employees: Employee[] = [
   {
+    ref: ANGEL_REF,
+    email: CLIENT_EMAIL,
+    grade: "G-10 · Contracts & Procurement",
+    location: "Corporate HQ, NY · Plant 02 liaison",
+    joined: "2025-09-02",
+    name: "Angel Tripathi",
+    title: "Head of Quotations & Contract Administration",
+    division: "Industrial Automation",
+    verified: true,
+    dispatch: "Dispatched",
+  },
+  {
+
     ref: "OSC-IN-90821",
     email: "shreya.kumari@oscorp.com",
     grade: "G-7 · Contracts",
