@@ -16,6 +16,8 @@ export interface Quotation {
   fileName: string;
   date: string;
   status: QuotationStatus;
+  /** Personnel reference ID of the Oscorp employee who lodged / owns the file. */
+  ownerRef?: string | undefined;
 }
 
 export interface PortalUser {
@@ -27,7 +29,10 @@ export interface PortalUser {
   joined: string;
   status: "Active" | "Blocked";
   blockReason?: string | undefined;
+  /** Links an admin console account to its HR personnel record. */
+  employeeRef?: string | undefined;
 }
+
 
 export interface Employee {
   ref: string;
