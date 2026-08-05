@@ -56,6 +56,9 @@ export const ADMIN_EMAIL = "admin@oscorp.com";
 export const ADMIN_PASSWORD = "Admin2026!";
 export const CLIENT_EMAIL = "angeltripathi.2802@gmail.com";
 export const CLIENT_PASSWORD = "Angel@2026";
+/** Angel Tripathi's HR personnel record — her admin console account is linked to it. */
+export const ANGEL_REF = "OSC-IN-90802";
+
 
 const today = "2026-08-01";
 
