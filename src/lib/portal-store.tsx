@@ -468,3 +468,19 @@ export function usePortal() {
 
 export const currency = (n: number) =>
   new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 }).format(n);
+
+/**
+ * Internal processing stage shown on the personnel desk. Approval outcomes are
+ * deliberately not disclosed here — only where the file currently sits.
+ */
+export function trackingStage(status: QuotationStatus) {
+  switch (status) {
+    case "Submitted":
+      return { label: "Lodged · awaiting intake", step: 1 };
+    case "Under Review":
+      return { label: "With contracts desk", step: 2 };
+    default:
+      return { label: "Processing closed · decision issued offline", step: 3 };
+  }
+}
+
