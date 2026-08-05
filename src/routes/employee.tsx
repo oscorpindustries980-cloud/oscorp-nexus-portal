@@ -75,7 +75,14 @@ function EmployeeUploadPage() {
 }
 
 function EmployeeDesk() {
-  const { submitQuotation, isBlocked, flagSuspension, employee, logout } = usePortal();
+  const {
+    submitQuotation,
+    isBlocked,
+    flagSuspension,
+    employee,
+    logout,
+    quotations,
+  } = usePortal();
   const emp = employee!;
   const ref = emp.ref;
   const name = emp.name;
@@ -86,6 +93,8 @@ function EmployeeDesk() {
   const [fileName, setFileName] = useState("");
   const [dragging, setDragging] = useState(false);
   const [receipts, setReceipts] = useState<{ id: string; file: string; at: string }[]>([]);
+
+  const myProjects = quotations.filter((q) => q.ownerRef === emp.ref);
 
   const attach = (f: File | undefined) => {
     if (!f) return;
@@ -117,6 +126,7 @@ function EmployeeDesk() {
       budget: Number(value) || 0,
       notes: notes.trim(),
       fileName,
+      ownerRef: emp.ref,
     });
     setReceipts((prev) => [
       { id, file: fileName, at: new Date().toLocaleString("en-GB") },
@@ -130,6 +140,7 @@ function EmployeeDesk() {
     setNotes("");
     setFileName("");
   };
+
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-12 sm:px-6">
