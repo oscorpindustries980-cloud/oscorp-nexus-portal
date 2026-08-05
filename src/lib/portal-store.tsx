@@ -353,6 +353,8 @@ export function PortalProvider({ children }: { children: ReactNode }) {
         return { ok: false, message: "Invalid credentials. Please try again." };
       }
       setUserId(found.id);
+      // Admin accounts linked to an HR record also open their personnel desk.
+      if (found.employeeRef) setEmployeeRef(found.employeeRef);
       if (found.status === "Blocked") setSuspensionVisible(true);
       return {
         ok: true,
