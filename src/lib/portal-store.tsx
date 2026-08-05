@@ -74,11 +74,12 @@ const seedQuotations: Quotation[] = [
     fileName: "machining-line-proposal.pdf",
     date: "2026-07-12",
     status: "Under Review",
+    ownerRef: "OSC-IN-90821",
   },
   {
     id: "OSC-QT-90822",
     client: "Angel Tripathi",
-    email: "angeltripathi.2802@gmail.com",
+    email: CLIENT_EMAIL,
     title: "Conveyor & PLC Automation Retrofit",
     department: "Industrial Automation",
     budget: 1250000,
@@ -88,6 +89,33 @@ const seedQuotations: Quotation[] = [
     status: "Approved",
     approvedPrice: 1180000,
     adminNotes: "Approved with 5.6% value engineering on the control panels.",
+    ownerRef: ANGEL_REF,
+  },
+  {
+    id: "OSC-QT-90831",
+    client: "Angel Tripathi",
+    email: CLIENT_EMAIL,
+    title: "Hydraulic Press Spares — Annual Rate Contract",
+    department: "Heavy Machinery",
+    budget: 615000,
+    notes: "Two-year rate contract for 200T/400T press spares across Plant 02 and Plant 04.",
+    fileName: "press-spares-rate-contract.pdf",
+    date: "2026-07-22",
+    status: "Under Review",
+    ownerRef: ANGEL_REF,
+  },
+  {
+    id: "OSC-QT-90838",
+    client: "Angel Tripathi",
+    email: CLIENT_EMAIL,
+    title: "Substation 11kV Upgrade — Helios Yard",
+    department: "Power & Energy",
+    budget: 2140000,
+    notes: "Switchgear replacement, protection relays and SCADA tie-in for the Helios yard.",
+    fileName: "substation-upgrade-boq.zip",
+    date: "2026-07-30",
+    status: "Submitted",
+    ownerRef: ANGEL_REF,
   },
   {
     id: "OSC-QT-90823",
@@ -100,6 +128,7 @@ const seedQuotations: Quotation[] = [
     fileName: "turbine-overhaul-scope.zip",
     date: "2026-07-24",
     status: "Submitted",
+    ownerRef: "OSC-IN-90844",
   },
   {
     id: "OSC-QT-90824",
@@ -113,8 +142,10 @@ const seedQuotations: Quotation[] = [
     date: "2026-07-28",
     status: "Rejected",
     adminNotes: "Scope overlaps an existing framework agreement.",
+    ownerRef: "OSC-IN-90855",
   },
 ];
+
 
 const seedUsers: PortalUser[] = [
   {
