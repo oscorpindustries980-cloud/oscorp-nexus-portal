@@ -1,6 +1,15 @@
 import { useState, type DragEvent } from "react";
 import { createFileRoute } from "@tanstack/react-router";
-import { BadgeCheck, FileUp, IdCard, Lock, Paperclip, Send, Upload } from "lucide-react";
+import {
+  BadgeCheck,
+  FileUp,
+  FolderKanban,
+  IdCard,
+  Lock,
+  Paperclip,
+  Send,
+  Upload,
+} from "lucide-react";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
@@ -15,9 +24,18 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 import { AuthDialog } from "@/components/auth-dialog";
-import { usePortal, type Department } from "@/lib/portal-store";
+import { currency, trackingStage, usePortal, type Department } from "@/lib/portal-store";
+
 
 export const Route = createFileRoute("/employee")({
   head: () => ({
