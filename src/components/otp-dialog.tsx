@@ -13,7 +13,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { initOtpWidget, retryOtp, sendOtp, verifyOtp } from "@/lib/msg91";
-import { verifyOtpAccessToken } from "@/lib/otp.functions";
+
 
 export function OtpDialog({
   open,
