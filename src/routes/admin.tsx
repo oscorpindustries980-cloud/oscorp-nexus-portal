@@ -225,8 +225,14 @@ function AdminConsole() {
                       </TableCell>
                       <TableCell>
                         <span className="font-medium">{q.client}</span>
-                        <span className="block text-xs text-muted-foreground">{q.department}</span>
+                        <span className="block text-xs text-muted-foreground">
+                          {q.department}
+                          {q.ownerRef && (
+                            <span className="ml-1 font-mono text-accent">· {q.ownerRef}</span>
+                          )}
+                        </span>
                       </TableCell>
+
                       <TableCell className="hidden md:table-cell text-xs text-muted-foreground">
                         {q.email}
                       </TableCell>
