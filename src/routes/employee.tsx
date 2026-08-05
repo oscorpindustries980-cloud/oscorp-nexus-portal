@@ -1,6 +1,15 @@
 import { useState, type DragEvent } from "react";
 import { createFileRoute } from "@tanstack/react-router";
-import { BadgeCheck, FileUp, IdCard, Lock, Paperclip, Send, Upload } from "lucide-react";
+import {
+  BadgeCheck,
+  FileUp,
+  FolderKanban,
+  IdCard,
+  Lock,
+  Paperclip,
+  Send,
+  Upload,
+} from "lucide-react";
 import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
@@ -15,9 +24,18 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 import { AuthDialog } from "@/components/auth-dialog";
-import { usePortal, type Department } from "@/lib/portal-store";
+import { currency, trackingStage, usePortal, type Department } from "@/lib/portal-store";
+
 
 export const Route = createFileRoute("/employee")({
   head: () => ({
@@ -75,7 +93,14 @@ function EmployeeUploadPage() {
 }
 
 function EmployeeDesk() {
-  const { submitQuotation, isBlocked, flagSuspension, employee, logout } = usePortal();
+  const {
+    submitQuotation,
+    isBlocked,
+    flagSuspension,
+    employee,
+    logout,
+    quotations,
+  } = usePortal();
   const emp = employee!;
   const ref = emp.ref;
   const name = emp.name;
@@ -86,6 +111,8 @@ function EmployeeDesk() {
   const [fileName, setFileName] = useState("");
   const [dragging, setDragging] = useState(false);
   const [receipts, setReceipts] = useState<{ id: string; file: string; at: string }[]>([]);
+
+  const myProjects = quotations.filter((q) => q.ownerRef === emp.ref);
 
   const attach = (f: File | undefined) => {
     if (!f) return;
@@ -117,6 +144,7 @@ function EmployeeDesk() {
       budget: Number(value) || 0,
       notes: notes.trim(),
       fileName,
+      ownerRef: emp.ref,
     });
     setReceipts((prev) => [
       { id, file: fileName, at: new Date().toLocaleString("en-GB") },
@@ -130,6 +158,7 @@ function EmployeeDesk() {
     setNotes("");
     setFileName("");
   };
+
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-12 sm:px-6">
@@ -277,6 +306,67 @@ function EmployeeDesk() {
           </Button>
         </CardContent>
       </Card>
+
+      <Card className="mt-6 glass-card">
+        <CardHeader className="flex flex-col gap-1">
+          <CardTitle className="text-base">My project files ({myProjects.length})</CardTitle>
+          <p className="text-xs text-muted-foreground">
+            Every file registered against {emp.ref} with its current internal processing stage.
+          </p>
+        </CardHeader>
+        <CardContent className="overflow-x-auto">
+          {myProjects.length === 0 ? (
+            <p className="flex items-center gap-2 text-sm text-muted-foreground">
+              <FolderKanban className="size-4" /> No project files registered against your
+              reference yet.
+            </p>
+          ) : (
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Ref ID</TableHead>
+                  <TableHead>Project</TableHead>
+                  <TableHead className="hidden md:table-cell">Division</TableHead>
+                  <TableHead className="hidden sm:table-cell">Value</TableHead>
+                  <TableHead className="hidden lg:table-cell">Lodged</TableHead>
+                  <TableHead>Stage</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {myProjects.map((q) => {
+                  const stage = trackingStage(q.status);
+                  return (
+                    <TableRow key={q.id}>
+                      <TableCell className="font-mono text-xs font-medium text-primary">
+                        {q.id}
+                      </TableCell>
+                      <TableCell className="max-w-64">
+                        <span className="font-medium">{q.title}</span>
+                        <span className="block text-xs text-muted-foreground">{q.fileName}</span>
+                      </TableCell>
+                      <TableCell className="hidden md:table-cell text-xs text-muted-foreground">
+                        {q.department}
+                      </TableCell>
+                      <TableCell className="hidden sm:table-cell whitespace-nowrap text-sm">
+                        {q.budget ? currency(q.budget) : "—"}
+                      </TableCell>
+                      <TableCell className="hidden lg:table-cell text-xs text-muted-foreground">
+                        {q.date}
+                      </TableCell>
+                      <TableCell>
+                        <span className="inline-flex items-center gap-1.5 rounded-full border border-accent/30 bg-accent/8 px-2.5 py-1 text-[11px] font-medium text-accent">
+                          <span className="font-mono">{stage.step}/3</span> {stage.label}
+                        </span>
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
+              </TableBody>
+            </Table>
+          )}
+        </CardContent>
+      </Card>
+
 
       <Card className="mt-6 glass-card">
         <CardHeader>

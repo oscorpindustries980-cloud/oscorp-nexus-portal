@@ -137,8 +137,11 @@ function AdminConsole() {
   const filtered = quotations.filter(
     (q) =>
       (filter === "all" || q.status === filter) &&
-      `${q.id} ${q.client} ${q.email} ${q.title}`.toLowerCase().includes(search.toLowerCase()),
+      `${q.id} ${q.client} ${q.email} ${q.title} ${q.ownerRef ?? ""}`
+        .toLowerCase()
+        .includes(search.toLowerCase()),
   );
+
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6">
@@ -222,8 +225,14 @@ function AdminConsole() {
                       </TableCell>
                       <TableCell>
                         <span className="font-medium">{q.client}</span>
-                        <span className="block text-xs text-muted-foreground">{q.department}</span>
+                        <span className="block text-xs text-muted-foreground">
+                          {q.department}
+                          {q.ownerRef && (
+                            <span className="ml-1 font-mono text-accent">· {q.ownerRef}</span>
+                          )}
+                        </span>
                       </TableCell>
+
                       <TableCell className="hidden md:table-cell text-xs text-muted-foreground">
                         {q.email}
                       </TableCell>

@@ -16,6 +16,8 @@ export interface Quotation {
   fileName: string;
   date: string;
   status: QuotationStatus;
+  /** Personnel reference ID of the Oscorp employee who lodged / owns the file. */
+  ownerRef?: string | undefined;
 }
 
 export interface PortalUser {
@@ -27,7 +29,10 @@ export interface PortalUser {
   joined: string;
   status: "Active" | "Blocked";
   blockReason?: string | undefined;
+  /** Links an admin console account to its HR personnel record. */
+  employeeRef?: string | undefined;
 }
+
 
 export interface Employee {
   ref: string;
@@ -51,6 +56,9 @@ export const ADMIN_EMAIL = "admin@oscorp.com";
 export const ADMIN_PASSWORD = "Admin2026!";
 export const CLIENT_EMAIL = "angeltripathi.2802@gmail.com";
 export const CLIENT_PASSWORD = "Angel@2026";
+/** Angel Tripathi's HR personnel record — her admin console account is linked to it. */
+export const ANGEL_REF = "OSC-IN-90802";
+
 
 const today = "2026-08-01";
 
@@ -66,11 +74,12 @@ const seedQuotations: Quotation[] = [
     fileName: "machining-line-proposal.pdf",
     date: "2026-07-12",
     status: "Under Review",
+    ownerRef: "OSC-IN-90821",
   },
   {
     id: "OSC-QT-90822",
     client: "Angel Tripathi",
-    email: "angeltripathi.2802@gmail.com",
+    email: CLIENT_EMAIL,
     title: "Conveyor & PLC Automation Retrofit",
     department: "Industrial Automation",
     budget: 1250000,
@@ -80,6 +89,33 @@ const seedQuotations: Quotation[] = [
     status: "Approved",
     approvedPrice: 1180000,
     adminNotes: "Approved with 5.6% value engineering on the control panels.",
+    ownerRef: ANGEL_REF,
+  },
+  {
+    id: "OSC-QT-90831",
+    client: "Angel Tripathi",
+    email: CLIENT_EMAIL,
+    title: "Hydraulic Press Spares — Annual Rate Contract",
+    department: "Heavy Machinery",
+    budget: 615000,
+    notes: "Two-year rate contract for 200T/400T press spares across Plant 02 and Plant 04.",
+    fileName: "press-spares-rate-contract.pdf",
+    date: "2026-07-22",
+    status: "Under Review",
+    ownerRef: ANGEL_REF,
+  },
+  {
+    id: "OSC-QT-90838",
+    client: "Angel Tripathi",
+    email: CLIENT_EMAIL,
+    title: "Substation 11kV Upgrade — Helios Yard",
+    department: "Power & Energy",
+    budget: 2140000,
+    notes: "Switchgear replacement, protection relays and SCADA tie-in for the Helios yard.",
+    fileName: "substation-upgrade-boq.zip",
+    date: "2026-07-30",
+    status: "Submitted",
+    ownerRef: ANGEL_REF,
   },
   {
     id: "OSC-QT-90823",
@@ -92,6 +128,7 @@ const seedQuotations: Quotation[] = [
     fileName: "turbine-overhaul-scope.zip",
     date: "2026-07-24",
     status: "Submitted",
+    ownerRef: "OSC-IN-90844",
   },
   {
     id: "OSC-QT-90824",
@@ -105,8 +142,10 @@ const seedQuotations: Quotation[] = [
     date: "2026-07-28",
     status: "Rejected",
     adminNotes: "Scope overlaps an existing framework agreement.",
+    ownerRef: "OSC-IN-90855",
   },
 ];
+
 
 const seedUsers: PortalUser[] = [
   {
@@ -135,7 +174,9 @@ const seedUsers: PortalUser[] = [
     role: "Admin",
     joined: "2025-09-02",
     status: "Active",
+    employeeRef: ANGEL_REF,
   },
+
   {
     id: "USR-004",
     name: "Marcus Vale",
@@ -159,6 +200,19 @@ const seedUsers: PortalUser[] = [
 
 export const employees: Employee[] = [
   {
+    ref: ANGEL_REF,
+    email: CLIENT_EMAIL,
+    grade: "G-10 · Contracts & Procurement",
+    location: "Corporate HQ, NY · Plant 02 liaison",
+    joined: "2025-09-02",
+    name: "Angel Tripathi",
+    title: "Head of Quotations & Contract Administration",
+    division: "Industrial Automation",
+    verified: true,
+    dispatch: "Dispatched",
+  },
+  {
+
     ref: "OSC-IN-90821",
     email: "shreya.kumari@oscorp.com",
     grade: "G-7 · Contracts",
@@ -254,7 +308,9 @@ interface PortalContextValue {
     budget: number;
     notes: string;
     fileName: string;
+    ownerRef?: string;
   }) => string;
+
   approveQuotation: (id: string, price: number, notes: string) => void;
   rejectQuotation: (id: string, notes?: string) => void;
   setQuotationStatus: (id: string, status: QuotationStatus) => void;
@@ -297,6 +353,8 @@ export function PortalProvider({ children }: { children: ReactNode }) {
         return { ok: false, message: "Invalid credentials. Please try again." };
       }
       setUserId(found.id);
+      // Admin accounts linked to an HR record also open their personnel desk.
+      if (found.employeeRef) setEmployeeRef(found.employeeRef);
       if (found.status === "Blocked") setSuspensionVisible(true);
       return {
         ok: true,
@@ -410,3 +468,19 @@ export function usePortal() {
 
 export const currency = (n: number) =>
   new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 }).format(n);
+
+/**
+ * Internal processing stage shown on the personnel desk. Approval outcomes are
+ * deliberately not disclosed here — only where the file currently sits.
+ */
+export function trackingStage(status: QuotationStatus) {
+  switch (status) {
+    case "Submitted":
+      return { label: "Lodged · awaiting intake", step: 1 };
+    case "Under Review":
+      return { label: "With contracts desk", step: 2 };
+    default:
+      return { label: "Processing closed · decision issued offline", step: 3 };
+  }
+}
+
