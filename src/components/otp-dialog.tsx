@@ -13,7 +13,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { initOtpWidget, retryOtp, sendOtp, verifyOtp } from "@/lib/msg91";
-import { verifyOtpAccessToken } from "@/lib/otp.functions";
+
 
 export function OtpDialog({
   open,
@@ -88,9 +88,17 @@ export function OtpDialog({
     setBusy(true);
     try {
       const accessToken = await verifyOtp(otp.trim());
-      const result = await verifyOtpAccessToken({ data: { accessToken } });
-      if (!result.verified) {
-        toast.error(result.message);
+      const res = await fetch("/api/public/verify-otp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ accessToken }),
+      });
+      const result = (await res.json().catch(() => null)) as {
+        verified?: boolean;
+        message?: string;
+      } | null;
+      if (!res.ok || !result?.verified) {
+        toast.error(result?.message ?? "Token verification failed.");
         return;
       }
       toast.success("Identity verified", { description: result.message });
