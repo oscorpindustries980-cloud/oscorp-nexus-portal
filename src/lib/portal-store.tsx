@@ -308,7 +308,9 @@ interface PortalContextValue {
     budget: number;
     notes: string;
     fileName: string;
+    ownerRef?: string;
   }) => string;
+
   approveQuotation: (id: string, price: number, notes: string) => void;
   rejectQuotation: (id: string, notes?: string) => void;
   setQuotationStatus: (id: string, status: QuotationStatus) => void;
