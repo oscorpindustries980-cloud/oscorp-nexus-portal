@@ -14,6 +14,7 @@ import { Route as AdminRouteImport } from './routes/admin'
 import { Route as DirectoryRouteImport } from './routes/directory'
 import { Route as EmployeeRouteImport } from './routes/employee'
 import { Route as QuotationsRouteImport } from './routes/quotations'
+import { Route as ApiPublicVerifyOtpRouteImport } from './routes/api/public/verify-otp'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -40,6 +41,11 @@ const QuotationsRoute = QuotationsRouteImport.update({
   path: '/quotations',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicVerifyOtpRoute = ApiPublicVerifyOtpRouteImport.update({
+  id: '/api/public/verify-otp',
+  path: '/api/public/verify-otp',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -47,6 +53,7 @@ export interface FileRoutesByFullPath {
   '/directory': typeof DirectoryRoute
   '/employee': typeof EmployeeRoute
   '/quotations': typeof QuotationsRoute
+  '/api/public/verify-otp': typeof ApiPublicVerifyOtpRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -54,6 +61,7 @@ export interface FileRoutesByTo {
   '/directory': typeof DirectoryRoute
   '/employee': typeof EmployeeRoute
   '/quotations': typeof QuotationsRoute
+  '/api/public/verify-otp': typeof ApiPublicVerifyOtpRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -62,13 +70,33 @@ export interface FileRoutesById {
   '/directory': typeof DirectoryRoute
   '/employee': typeof EmployeeRoute
   '/quotations': typeof QuotationsRoute
+  '/api/public/verify-otp': typeof ApiPublicVerifyOtpRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/admin' | '/directory' | '/employee' | '/quotations'
+  fullPaths:
+    | '/'
+    | '/admin'
+    | '/directory'
+    | '/employee'
+    | '/quotations'
+    | '/api/public/verify-otp'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/admin' | '/directory' | '/employee' | '/quotations'
-  id: '__root__' | '/' | '/admin' | '/directory' | '/employee' | '/quotations'
+  to:
+    | '/'
+    | '/admin'
+    | '/directory'
+    | '/employee'
+    | '/quotations'
+    | '/api/public/verify-otp'
+  id:
+    | '__root__'
+    | '/'
+    | '/admin'
+    | '/directory'
+    | '/employee'
+    | '/quotations'
+    | '/api/public/verify-otp'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -77,6 +105,7 @@ export interface RootRouteChildren {
   DirectoryRoute: typeof DirectoryRoute
   EmployeeRoute: typeof EmployeeRoute
   QuotationsRoute: typeof QuotationsRoute
+  ApiPublicVerifyOtpRoute: typeof ApiPublicVerifyOtpRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -116,6 +145,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof QuotationsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/verify-otp': {
+      id: '/api/public/verify-otp'
+      path: '/api/public/verify-otp'
+      fullPath: '/api/public/verify-otp'
+      preLoaderRoute: typeof ApiPublicVerifyOtpRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -125,6 +161,7 @@ const rootRouteChildren: RootRouteChildren = {
   DirectoryRoute: DirectoryRoute,
   EmployeeRoute: EmployeeRoute,
   QuotationsRoute: QuotationsRoute,
+  ApiPublicVerifyOtpRoute: ApiPublicVerifyOtpRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
