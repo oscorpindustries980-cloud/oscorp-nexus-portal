@@ -176,15 +176,6 @@ const seedUsers: PortalUser[] = [
     status: "Active",
     employeeRef: ANGEL_REF,
   },
-  {
-    id: "USR-006",
-    name: "Shreya Kumari",
-    email: "shreya.kumari@oscorp.com",
-    password: "Vendor2026!",
-    role: "Vendor",
-    joined: "2025-03-14",
-    status: "Active",
-  },
 
   {
     id: "USR-004",
