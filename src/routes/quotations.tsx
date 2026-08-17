@@ -43,7 +43,7 @@ const departments: Department[] = ["Heavy Machinery", "Industrial Automation", "
 function QuotationsPage() {
   const { submitQuotation, isBlocked, flagSuspension, user } = usePortal();
   const [client, setClient] = useState(user?.name ?? "");
-  const [email, setEmail] = useState("angeltripathi.2802@gmail.com");
+  const [email, setEmail] = useState("procurement@oscorp.com");
   const [title, setTitle] = useState("");
   const [budget, setBudget] = useState("");
   const [department, setDepartment] = useState<Department>("Heavy Machinery");
