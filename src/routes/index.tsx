@@ -200,9 +200,78 @@ function Home() {
         </div>
       </section>
 
+      <section className="border-y border-border bg-secondary/40">
+        <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-x-8 gap-y-3 px-4 py-6 text-xs font-medium uppercase tracking-wide text-muted-foreground sm:px-6">
+          <span className="text-primary">Accreditations</span>
+          {[
+            "ISO 9001:2015",
+            "ISO 45001",
+            "ASME U-Stamp",
+            "IEC 61511 (SIS)",
+            "SOC 2 Type II",
+            "NYSE: OSCP",
+          ].map((c) => (
+            <span key={c} className="rounded border border-border bg-background px-2.5 py-1">
+              {c}
+            </span>
+          ))}
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6">
+        <div className="flex flex-wrap items-end gap-3">
+          <div>
+            <h2 className="text-2xl font-semibold text-primary sm:text-3xl">
+              Latest procurement notices
+            </h2>
+            <p className="mt-2 text-sm text-muted-foreground">
+              Live feed from the central contracts desk. Reference IDs are traceable in the tracker
+              above.
+            </p>
+          </div>
+          <span className="ml-auto inline-flex items-center gap-2 rounded-full border border-accent/30 bg-accent/8 px-3 py-1 text-xs font-medium text-accent">
+            <Activity className="size-3.5" /> Updated {new Date().toISOString().slice(0, 10)}
+          </span>
+        </div>
+        <div className="mt-6 overflow-hidden rounded-xl border border-border">
+          <table className="w-full text-left text-sm">
+            <thead className="bg-secondary/60 text-xs uppercase tracking-wide text-muted-foreground">
+              <tr>
+                <th className="px-4 py-3 font-medium">Reference</th>
+                <th className="px-4 py-3 font-medium">Scope</th>
+                <th className="hidden px-4 py-3 font-medium sm:table-cell">Division</th>
+                <th className="hidden px-4 py-3 font-medium md:table-cell">Filed</th>
+                <th className="px-4 py-3 font-medium">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {[...quotations]
+                .sort((a, b) => b.date.localeCompare(a.date))
+                .slice(0, 5)
+                .map((q) => (
+                  <tr key={q.id} className="border-t border-border">
+                    <td className="px-4 py-3 font-mono text-xs text-primary">{q.id}</td>
+                    <td className="px-4 py-3 text-foreground">{q.title}</td>
+                    <td className="hidden px-4 py-3 text-muted-foreground sm:table-cell">
+                      {q.department}
+                    </td>
+                    <td className="hidden px-4 py-3 text-muted-foreground md:table-cell">
+                      {q.date}
+                    </td>
+                    <td className="px-4 py-3">
+                      <StatusBadge status={q.status} />
+                    </td>
+                  </tr>
+                ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
+
       <section className="border-y border-border bg-background">
         <div className="mx-auto grid max-w-7xl gap-6 px-4 py-14 sm:grid-cols-2 sm:px-6 lg:grid-cols-4">
           {[
+
             ["1,240", "Quotations processed YTD"],
             ["98.4%", "Contract dispatch accuracy"],
             ["3.2 days", "Median approval turnaround"],
