@@ -83,18 +83,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: "Oscorp Industries — Advanced Enterprise Quotation & Contract Portal" },
-      {
-        name: "description",
-        content:
-          "Oscorp industries",
-      },
+      { name: "description", content: "Oscorp Industries Corporation's enterprise portal for vendor quotations, contract approvals, personnel verification and secure document dispatch." },
       { name: "author", content: "Oscorp Industries Corporation" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
       { property: "og:title", content: "Oscorp Industries — Advanced Enterprise Quotation & Contract Portal" },
       { name: "twitter:title", content: "Oscorp Industries — Advanced Enterprise Quotation & Contract Portal" },
-      { property: "og:description", content: "Oscorp industries" },
-      { name: "twitter:description", content: "Oscorp industries" },
+      { property: "og:description", content: "Oscorp Industries Corporation's enterprise portal for vendor quotations, contract approvals, personnel verification and secure document dispatch." },
+      { name: "twitter:description", content: "Oscorp Industries Corporation's enterprise portal for vendor quotations, contract approvals, personnel verification and secure document dispatch." },
       { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/b5474182-8720-479f-add4-37590107c243" },
       { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/b5474182-8720-479f-add4-37590107c243" },
     ],
@@ -142,11 +138,19 @@ function RootComponent() {
           </main>
           <footer className="border-t border-border bg-background">
             <div className="mx-auto flex max-w-7xl flex-col gap-2 px-4 py-8 text-sm text-muted-foreground sm:flex-row sm:items-center sm:px-6">
-              <p>© 2026 Oscorp Industries Corporation. All rights reserved.</p>
-              <p className="sm:ml-auto">
-                Contracts desk ·{" "}
-                <span className="font-mono text-primary">contracts@oscorp.com</span>
-              </p>
+              <div className="space-y-1">
+                <p className="font-medium text-primary">Oscorp Industries Corporation</p>
+                <p>1 Oscorp Plaza, Manhattan, New York · CIN U29100NY1961PLC004512</p>
+                <p>© 2026 Oscorp Industries Corporation. All rights reserved.</p>
+              </div>
+              <div className="space-y-1 sm:ml-auto sm:text-right">
+                <p>
+                  Contracts desk ·{" "}
+                  <span className="font-mono text-primary">contracts@oscorp.com</span>
+                </p>
+                <p>Vendor helpline · +1 (212) 555-0142 · Mon–Fri, 09:00–18:00 ET</p>
+                <p>ISO 9001:2015 · ISO 45001 · GDPR &amp; SOC 2 Type II aligned</p>
+              </div>
             </div>
           </footer>
           <AiAssistant />

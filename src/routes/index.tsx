@@ -24,20 +24,12 @@ export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       { title: "Oscorp Industries — Advanced Enterprise Quotation & Contract Portal" },
-      {
-        name: "description",
-        content:
-          "Oscorp industries",
-      },
+      { name: "description", content: "Track quotations, submit proposals and verify Oscorp personnel in one governed enterprise portal for heavy machinery, automation and power contracting." },
       {
         property: "og:title",
         content: "Oscorp Industries — Advanced Enterprise Quotation & Contract Portal",
       },
-      {
-        property: "og:description",
-        content:
-          "Oscorp industries",
-      },
+      { property: "og:description", content: "Track quotations, submit proposals and verify Oscorp personnel in one governed enterprise portal for heavy machinery, automation and power contracting." },
     ],
   }),
   component: Home,
