@@ -54,10 +54,10 @@ export function employeePasscode(ref: string) {
 
 export const ADMIN_EMAIL = "admin@oscorp.com";
 export const ADMIN_PASSWORD = "Admin2026!";
-export const CLIENT_EMAIL = "angeltripathi.2802@gmail.com";
-export const CLIENT_PASSWORD = "Angel@2026";
-/** Angel Tripathi's HR personnel record — her admin console account is linked to it. */
-export const ANGEL_REF = "OSC-IN-90802";
+export const CLIENT_EMAIL = "i.malhotra@oscorp.com";
+export const CLIENT_PASSWORD = "Contracts@2026";
+/** Contracts head HR personnel record — the linked admin console account. */
+export const CONTRACTS_HEAD_REF = "OSC-IN-90802";
 
 
 const today = "2026-08-01";
@@ -78,7 +78,7 @@ const seedQuotations: Quotation[] = [
   },
   {
     id: "OSC-QT-90822",
-    client: "Angel Tripathi",
+    client: "Ishaan Malhotra",
     email: CLIENT_EMAIL,
     title: "Conveyor & PLC Automation Retrofit",
     department: "Industrial Automation",
@@ -89,11 +89,11 @@ const seedQuotations: Quotation[] = [
     status: "Approved",
     approvedPrice: 1180000,
     adminNotes: "Approved with 5.6% value engineering on the control panels.",
-    ownerRef: ANGEL_REF,
+    ownerRef: CONTRACTS_HEAD_REF,
   },
   {
     id: "OSC-QT-90831",
-    client: "Angel Tripathi",
+    client: "Ishaan Malhotra",
     email: CLIENT_EMAIL,
     title: "Hydraulic Press Spares — Annual Rate Contract",
     department: "Heavy Machinery",
@@ -102,11 +102,11 @@ const seedQuotations: Quotation[] = [
     fileName: "press-spares-rate-contract.pdf",
     date: "2026-07-22",
     status: "Under Review",
-    ownerRef: ANGEL_REF,
+    ownerRef: CONTRACTS_HEAD_REF,
   },
   {
     id: "OSC-QT-90838",
-    client: "Angel Tripathi",
+    client: "Ishaan Malhotra",
     email: CLIENT_EMAIL,
     title: "Substation 11kV Upgrade — Helios Yard",
     department: "Power & Energy",
@@ -115,7 +115,7 @@ const seedQuotations: Quotation[] = [
     fileName: "substation-upgrade-boq.zip",
     date: "2026-07-30",
     status: "Submitted",
-    ownerRef: ANGEL_REF,
+    ownerRef: CONTRACTS_HEAD_REF,
   },
   {
     id: "OSC-QT-90823",
@@ -168,13 +168,13 @@ const seedUsers: PortalUser[] = [
   },
   {
     id: "USR-003",
-    name: "Angel Tripathi",
+    name: "Ishaan Malhotra",
     email: CLIENT_EMAIL,
     password: CLIENT_PASSWORD,
     role: "Admin",
     joined: "2025-09-02",
     status: "Active",
-    employeeRef: ANGEL_REF,
+    employeeRef: CONTRACTS_HEAD_REF,
   },
 
   {
@@ -200,12 +200,12 @@ const seedUsers: PortalUser[] = [
 
 export const employees: Employee[] = [
   {
-    ref: ANGEL_REF,
+    ref: CONTRACTS_HEAD_REF,
     email: CLIENT_EMAIL,
     grade: "G-10 · Contracts & Procurement",
     location: "Corporate HQ, NY · Plant 02 liaison",
     joined: "2025-09-02",
-    name: "Angel Tripathi",
+    name: "Ishaan Malhotra",
     title: "Head of Quotations & Contract Administration",
     division: "Industrial Automation",
     verified: true,

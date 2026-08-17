@@ -18,7 +18,7 @@ const faqs: { q: string; a: string }[] = [
   },
   {
     q: "How are documents dispatched?",
-    a: "Approved contracts are dispatched from contracts@oscorp.com to your registered inbox (for example angeltripathi.2802@gmail.com) with a signed PDF and a verification reference such as OSC-QT-90821.",
+    a: "Approved contracts are dispatched from contracts@oscorp.com to your registered inbox with a signed PDF and a verification reference such as OSC-QT-90821.",
   },
   {
     q: "How do I onboard as a vendor?",
