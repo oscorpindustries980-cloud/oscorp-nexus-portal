@@ -69,7 +69,7 @@ export function AuthDialog({
                 id="emp-login-ref"
                 value={empRef}
                 onChange={(e) => setEmpRef(e.target.value.toUpperCase())}
-                placeholder="OSC-IN-90821"
+                placeholder="OSC-IN-00000"
                 className="font-mono tracking-wide"
               />
             </div>

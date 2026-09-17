@@ -53,7 +53,7 @@ function DirectoryPage() {
       <h1 className="text-3xl font-semibold text-primary">Employee & HR Verification Hub</h1>
       <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
         Confirm that a representative genuinely works for Oscorp Industries. Search by name or
-        reference ID, e.g. OSC-IN-90821.
+        reference ID, e.g. OSC-IN-90822.
       </p>
 
       <div className="mt-6 flex flex-col gap-3 sm:flex-row">
