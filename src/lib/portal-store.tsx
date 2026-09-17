@@ -422,23 +422,65 @@ export function PortalProvider({ children }: { children: ReactNode }) {
   const [userId, setUserId] = useState<string | null>(null);
   const [suspensionVisible, setSuspensionVisible] = useState(false);
   const [employeeRef, setEmployeeRef] = useState<string | null>(null);
+  const [employees, setEmployees] = useState<Employee[]>(seedEmployees);
 
   const employee = useMemo(
     () => employees.find((e) => e.ref === employeeRef) ?? null,
-    [employeeRef],
+    [employees, employeeRef],
   );
 
-  const loginEmployee = useCallback((ref: string, passcode: string) => {
-    const match = employees.find(
-      (e) => e.ref.toLowerCase() === ref.trim().toLowerCase(),
-    );
-    if (!match) return { ok: false, message: "No personnel record found for this reference ID." };
-    if (passcode !== employeePasscode(match.ref)) {
-      return { ok: false, message: "Incorrect personnel passcode." };
-    }
-    setEmployeeRef(match.ref);
-    return { ok: true, message: `Verified — ${match.name}, ${match.title}.` };
-  }, []);
+  const addEmployee: PortalContextValue["addEmployee"] = useCallback(
+    (input) => {
+      const taken = new Set(employees.map((e) => e.ref));
+      let ref = "";
+      let n = 90940;
+      while (!ref || taken.has(ref)) {
+        ref = `OSC-IN-${n}`;
+        n += 1;
+      }
+      if (employees.some((e) => e.email.toLowerCase() === input.email.trim().toLowerCase())) {
+        return {
+          ok: false,
+          message: "A personnel record with this work email already exists.",
+          ref: "",
+          passcode: "",
+        };
+      }
+      const record: Employee = {
+        ref,
+        name: input.name.trim(),
+        title: input.title.trim(),
+        division: input.division,
+        email: input.email.trim(),
+        grade: input.grade.trim(),
+        location: input.location.trim(),
+        verified: input.verified,
+        dispatch: "Queued",
+        joined: today,
+      };
+      setEmployees((prev) => [record, ...prev]);
+      return {
+        ok: true,
+        message: `${record.name} added to the HR directory.`,
+        ref,
+        passcode: employeePasscode(ref),
+      };
+    },
+    [employees],
+  );
+
+  const loginEmployee = useCallback(
+    (ref: string, passcode: string) => {
+      const match = employees.find((e) => e.ref.toLowerCase() === ref.trim().toLowerCase());
+      if (!match) return { ok: false, message: "No personnel record found for this reference ID." };
+      if (passcode !== employeePasscode(match.ref)) {
+        return { ok: false, message: "Incorrect personnel passcode." };
+      }
+      setEmployeeRef(match.ref);
+      return { ok: true, message: `Verified — ${match.name}, ${match.title}.` };
+    },
+    [employees],
+  );
 
   const user = useMemo(() => users.find((u) => u.id === userId) ?? null, [users, userId]);
 
