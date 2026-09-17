@@ -212,7 +212,7 @@ const seedUsers: PortalUser[] = [
   },
 ];
 
-export const employees: Employee[] = [
+const seedEmployees: Employee[] = [
   {
     ref: CONTRACTS_HEAD_REF,
     email: CLIENT_EMAIL,
@@ -375,6 +375,16 @@ export const employees: Employee[] = [
 interface PortalContextValue {
   user: PortalUser | null;
   employee: Employee | null;
+  employees: Employee[];
+  addEmployee: (input: {
+    name: string;
+    title: string;
+    division: Department;
+    email: string;
+    grade: string;
+    location: string;
+    verified: boolean;
+  }) => { ok: boolean; message: string; ref: string; passcode: string };
   loginEmployee: (ref: string, passcode: string) => { ok: boolean; message: string };
   users: PortalUser[];
   quotations: Quotation[];
