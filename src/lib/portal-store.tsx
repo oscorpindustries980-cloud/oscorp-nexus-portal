@@ -58,6 +58,10 @@ export const CLIENT_EMAIL = "i.malhotra@oscorp.com";
 export const CLIENT_PASSWORD = "Contracts@2026";
 /** Contracts head HR personnel record — the linked admin console account. */
 export const CONTRACTS_HEAD_REF = "OSC-IN-90802";
+/** Approvals desk admin — Zishu Ahmad. */
+export const ZISHU_EMAIL = "z.ahmad@oscorp.com";
+export const ZISHU_PASSWORD = "Zishu@2026";
+export const ZISHU_REF = "OSC-IN-90877";
 
 
 const today = "2026-08-01";
@@ -195,6 +199,16 @@ const seedUsers: PortalUser[] = [
     role: "Client",
     joined: "2026-04-30",
     status: "Active",
+  },
+  {
+    id: "USR-006",
+    name: "Zishu Ahmad",
+    email: ZISHU_EMAIL,
+    password: ZISHU_PASSWORD,
+    role: "Admin",
+    joined: "2025-11-11",
+    status: "Active",
+    employeeRef: ZISHU_REF,
   },
 ];
 
