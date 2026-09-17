@@ -214,6 +214,18 @@ const seedUsers: PortalUser[] = [
 
 export const employees: Employee[] = [
   {
+    ref: ZISHU_REF,
+    email: ZISHU_EMAIL,
+    grade: "G-11 · Approvals & Governance",
+    location: "Corporate HQ, NY",
+    joined: "2025-11-11",
+    name: "Zishu Ahmad",
+    title: "Director — Quotation Approvals",
+    division: "Industrial Automation",
+    verified: true,
+    dispatch: "Dispatched",
+  },
+  {
     ref: CONTRACTS_HEAD_REF,
     email: CLIENT_EMAIL,
     grade: "G-10 · Contracts & Procurement",
