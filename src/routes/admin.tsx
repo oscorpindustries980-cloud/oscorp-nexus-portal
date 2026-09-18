@@ -45,7 +45,14 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { AccountBadge, StatusBadge } from "@/components/status-badge";
 import { AuthDialog } from "@/components/auth-dialog";
-import { currency, usePortal, type Quotation } from "@/lib/portal-store";
+import { currency, usePortal, type Department, type Quotation } from "@/lib/portal-store";
+
+const divisions: Department[] = [
+  "Heavy Machinery",
+  "Industrial Automation",
+  "Power & Energy",
+  "HR",
+];
 
 export const Route = createFileRoute("/admin")({
   head: () => ({
@@ -95,6 +102,8 @@ function AdminConsole() {
   const {
     quotations,
     users,
+    employees,
+    addEmployee,
     approveQuotation,
     rejectQuotation,
     setQuotationStatus,
