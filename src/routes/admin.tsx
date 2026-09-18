@@ -10,6 +10,7 @@ import {
   Search,
   ShieldAlert,
   ShieldCheck,
+  UserPlus,
   XCircle,
 } from "lucide-react";
 import { toast } from "sonner";
