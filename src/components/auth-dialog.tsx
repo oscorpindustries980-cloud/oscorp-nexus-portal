@@ -23,7 +23,7 @@ export function AuthDialog({
   open: boolean;
   onOpenChange: (v: boolean) => void;
 }) {
-  const { login, register, loginEmployee } = usePortal();
+  const { login, register, loginEmployee, employees } = usePortal();
   const [empRef, setEmpRef] = useState("");
   const [empPass, setEmpPass] = useState("");
   const [email, setEmail] = useState("");
