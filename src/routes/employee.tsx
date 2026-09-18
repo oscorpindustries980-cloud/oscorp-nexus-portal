@@ -169,8 +169,8 @@ function EmployeeDesk() {
       <h1 className="mt-4 text-3xl font-semibold text-primary">Employee Quotation Upload Desk</h1>
       <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
         Lodge vendor quotations and supporting documents against your Oscorp personnel reference.
-        Uploads are routed to the contracts desk — decisions are communicated offline by the
-        procurement office, not on this screen.
+        Uploads are routed to the contracts desk, and the approval decision appears against your
+        file below as soon as the administrator records it.
       </p>
 
       <Card className="mt-8 glass-card">
@@ -408,8 +408,8 @@ function EmployeeDesk() {
             </ul>
           )}
           <p className="mt-4 text-xs text-muted-foreground">
-            Approval outcomes are not published on this desk. The procurement office issues the
-            formal decision letter to your division inbox.
+            The formal decision letter is also dispatched to your division inbox by the
+            procurement office.
           </p>
         </CardContent>
       </Card>
