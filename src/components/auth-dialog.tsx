@@ -13,7 +13,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { usePortal, employeePasscode, employees } from "@/lib/portal-store";
+import { usePortal, employeePasscode } from "@/lib/portal-store";
 import { OtpDialog } from "@/components/otp-dialog";
 
 export function AuthDialog({
@@ -23,7 +23,7 @@ export function AuthDialog({
   open: boolean;
   onOpenChange: (v: boolean) => void;
 }) {
-  const { login, register, loginEmployee } = usePortal();
+  const { login, register, loginEmployee, employees } = usePortal();
   const [empRef, setEmpRef] = useState("");
   const [empPass, setEmpPass] = useState("");
   const [email, setEmail] = useState("");

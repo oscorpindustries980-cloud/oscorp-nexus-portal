@@ -34,6 +34,7 @@ import {
 } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 import { AuthDialog } from "@/components/auth-dialog";
+import { StatusBadge } from "@/components/status-badge";
 import { currency, trackingStage, usePortal, type Department } from "@/lib/portal-store";
 
 
@@ -168,8 +169,8 @@ function EmployeeDesk() {
       <h1 className="mt-4 text-3xl font-semibold text-primary">Employee Quotation Upload Desk</h1>
       <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
         Lodge vendor quotations and supporting documents against your Oscorp personnel reference.
-        Uploads are routed to the contracts desk — decisions are communicated offline by the
-        procurement office, not on this screen.
+        Uploads are routed to the contracts desk, and the approval decision appears against your
+        file below as soon as the administrator records it.
       </p>
 
       <Card className="mt-8 glass-card">
@@ -330,6 +331,7 @@ function EmployeeDesk() {
                   <TableHead className="hidden sm:table-cell">Value</TableHead>
                   <TableHead className="hidden lg:table-cell">Lodged</TableHead>
                   <TableHead>Stage</TableHead>
+                  <TableHead>Decision</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -357,6 +359,19 @@ function EmployeeDesk() {
                         <span className="inline-flex items-center gap-1.5 rounded-full border border-accent/30 bg-accent/8 px-2.5 py-1 text-[11px] font-medium text-accent">
                           <span className="font-mono">{stage.step}/3</span> {stage.label}
                         </span>
+                      </TableCell>
+                      <TableCell>
+                        <StatusBadge status={q.status} />
+                        {q.status === "Approved" && q.approvedPrice != null && (
+                          <span className="mt-1 block text-[11px] text-muted-foreground">
+                            Approved at {currency(q.approvedPrice)}
+                          </span>
+                        )}
+                        {q.adminNotes && (
+                          <span className="mt-1 block max-w-56 text-[11px] text-muted-foreground">
+                            {q.adminNotes}
+                          </span>
+                        )}
                       </TableCell>
                     </TableRow>
                   );
@@ -393,8 +408,8 @@ function EmployeeDesk() {
             </ul>
           )}
           <p className="mt-4 text-xs text-muted-foreground">
-            Approval outcomes are not published on this desk. The procurement office issues the
-            formal decision letter to your division inbox.
+            The formal decision letter is also dispatched to your division inbox by the
+            procurement office.
           </p>
         </CardContent>
       </Card>

@@ -576,6 +576,8 @@ export function PortalProvider({ children }: { children: ReactNode }) {
   const value: PortalContextValue = {
     user,
     employee,
+    employees,
+    addEmployee,
     loginEmployee,
     users,
     quotations,

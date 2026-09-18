@@ -12,7 +12,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { employees } from "@/lib/portal-store";
+import { usePortal } from "@/lib/portal-store";
 
 export const Route = createFileRoute("/directory")({
   head: () => ({
@@ -40,6 +40,7 @@ const dispatchIcon = {
 } as const;
 
 function DirectoryPage() {
+  const { employees } = usePortal();
   const [q, setQ] = useState("");
   const [division, setDivision] = useState("all");
 
