@@ -25,7 +25,7 @@ export interface PortalUser {
   name: string;
   email: string;
   password: string;
-  role: "Admin" | "Vendor" | "Client";
+  role: "Admin" | "HR" | "Vendor" | "Client";
   joined: string;
   status: "Active" | "Blocked";
   blockReason?: string | undefined;
@@ -164,11 +164,12 @@ const seedUsers: PortalUser[] = [
   {
     id: "USR-002",
     name: "Shreya Kumari",
-    email: "shreya.kumari@oscorp.com",
-    password: "Vendor2026!",
-    role: "Vendor",
-    joined: "2025-03-14",
+    email: HR_EMAIL,
+    password: HR_PASSWORD,
+    role: "HR",
+    joined: "2023-06-12",
     status: "Active",
+    employeeRef: HR_REF,
   },
   {
     id: "USR-003",
@@ -227,8 +228,8 @@ const seedEmployees: Employee[] = [
   },
   {
 
-    ref: "OSC-IN-90821",
-    email: "shreya.kumari@oscorp.com",
+    ref: HR_REF,
+    email: HR_EMAIL,
     grade: "G-7 · Contracts",
     location: "Queens Plant 04, NY",
     joined: "2023-06-12",
