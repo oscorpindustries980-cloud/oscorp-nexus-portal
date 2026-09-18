@@ -403,6 +403,158 @@ function AdminConsole() {
             </CardContent>
           </Card>
         </TabsContent>
+        <TabsContent value="hr" className="pt-5">
+          <div className="grid gap-5 lg:grid-cols-[minmax(0,380px)_1fr]">
+            <Card className="glass-card">
+              <CardHeader>
+                <CardTitle className="text-base">Add personnel to HR directory</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                <div className="space-y-1.5">
+                  <Label htmlFor="hr-name">Full name</Label>
+                  <Input
+                    id="hr-name"
+                    value={hire.name}
+                    onChange={(e) => setHire({ ...hire, name: e.target.value })}
+                    placeholder="Ritika Sharma"
+                  />
+                </div>
+                <div className="space-y-1.5">
+                  <Label htmlFor="hr-title">Designation</Label>
+                  <Input
+                    id="hr-title"
+                    value={hire.title}
+                    onChange={(e) => setHire({ ...hire, title: e.target.value })}
+                    placeholder="Procurement Analyst"
+                  />
+                </div>
+                <div className="space-y-1.5">
+                  <Label htmlFor="hr-email">Work email</Label>
+                  <Input
+                    id="hr-email"
+                    type="email"
+                    value={hire.email}
+                    onChange={(e) => setHire({ ...hire, email: e.target.value })}
+                    placeholder="r.sharma@oscorp.com"
+                  />
+                </div>
+                <div className="space-y-1.5">
+                  <Label>Division</Label>
+                  <Select
+                    value={hire.division}
+                    onValueChange={(v) => setHire({ ...hire, division: v as Department })}
+                  >
+                    <SelectTrigger>
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {divisions.map((d) => (
+                        <SelectItem key={d} value={d}>
+                          {d}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="grid gap-3 sm:grid-cols-2">
+                  <div className="space-y-1.5">
+                    <Label htmlFor="hr-grade">Grade</Label>
+                    <Input
+                      id="hr-grade"
+                      value={hire.grade}
+                      onChange={(e) => setHire({ ...hire, grade: e.target.value })}
+                      placeholder="G-7 · Procurement"
+                    />
+                  </div>
+                  <div className="space-y-1.5">
+                    <Label htmlFor="hr-loc">Posting</Label>
+                    <Input
+                      id="hr-loc"
+                      value={hire.location}
+                      onChange={(e) => setHire({ ...hire, location: e.target.value })}
+                      placeholder="Corporate HQ, NY"
+                    />
+                  </div>
+                </div>
+                <Button
+                  className="w-full"
+                  onClick={() => {
+                    if (!hire.name.trim() || !hire.title.trim() || !hire.email.trim()) {
+                      toast.error("Name, designation and work email are required.");
+                      return;
+                    }
+                    const res = addEmployee({
+                      ...hire,
+                      grade: hire.grade.trim() || `G-6 · ${hire.division}`,
+                      location: hire.location.trim() || "Corporate HQ, NY",
+                    });
+                    if (!res.ok) {
+                      toast.error(res.message);
+                      return;
+                    }
+                    toast.success(`${hire.name} onboarded — ${res.ref}`, {
+                      description: `Personnel passcode issued: ${res.passcode}`,
+                    });
+                    setHire(emptyHire);
+                  }}
+                >
+                  <UserPlus className="size-4" /> Onboard personnel
+                </Button>
+                <p className="text-xs text-muted-foreground">
+                  A reference ID and passcode are issued automatically. The new record appears in
+                  the public verification hub and can sign in to the personnel desk immediately.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="glass-card">
+              <CardHeader>
+                <CardTitle className="text-base">
+                  Personnel records ({employees.length})
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="overflow-x-auto">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Reference ID</TableHead>
+                      <TableHead>Name</TableHead>
+                      <TableHead className="hidden md:table-cell">Designation</TableHead>
+                      <TableHead className="hidden lg:table-cell">Division</TableHead>
+                      <TableHead>Verification</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {employees.map((e) => (
+                      <TableRow key={e.ref}>
+                        <TableCell className="font-mono text-xs font-medium text-primary">
+                          {e.ref}
+                        </TableCell>
+                        <TableCell>
+                          <span className="font-medium">{e.name}</span>
+                          <span className="block text-xs text-muted-foreground">{e.email}</span>
+                        </TableCell>
+                        <TableCell className="hidden md:table-cell text-xs text-muted-foreground">
+                          {e.title}
+                        </TableCell>
+                        <TableCell className="hidden lg:table-cell text-xs text-muted-foreground">
+                          {e.division}
+                        </TableCell>
+                        <TableCell className="text-xs">
+                          {e.verified ? (
+                            <span className="text-accent">Verified</span>
+                          ) : (
+                            <span className="text-muted-foreground">Pending</span>
+                          )}
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </CardContent>
+            </Card>
+          </div>
+        </TabsContent>
       </Tabs>
 
       {/* Approve modal */}
