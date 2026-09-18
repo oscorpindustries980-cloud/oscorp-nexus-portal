@@ -118,6 +118,16 @@ function AdminConsole() {
   const [adminNotes, setAdminNotes] = useState("");
   const [blocking, setBlocking] = useState<string | null>(null);
   const [reason, setReason] = useState("Policy Violation");
+  const emptyHire = {
+    name: "",
+    title: "",
+    email: "",
+    grade: "",
+    location: "",
+    division: "Heavy Machinery" as Department,
+    verified: true,
+  };
+  const [hire, setHire] = useState(emptyHire);
 
   const stats = [
     {
@@ -183,6 +193,7 @@ function AdminConsole() {
         <TabsList>
           <TabsTrigger value="quotations">Quotation Approvals</TabsTrigger>
           <TabsTrigger value="users">User Management</TabsTrigger>
+          <TabsTrigger value="hr">HR Directory</TabsTrigger>
         </TabsList>
 
         <TabsContent value="quotations" className="pt-5">
