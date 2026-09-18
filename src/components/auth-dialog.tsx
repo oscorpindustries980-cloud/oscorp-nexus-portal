@@ -13,7 +13,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { usePortal, employeePasscode, employees } from "@/lib/portal-store";
+import { usePortal, employeePasscode } from "@/lib/portal-store";
 import { OtpDialog } from "@/components/otp-dialog";
 
 export function AuthDialog({
