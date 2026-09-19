@@ -210,7 +210,7 @@ const seedUsers: PortalUser[] = [
     name: "Zishu Ahmad",
     email: ZISHU_EMAIL,
     password: ZISHU_PASSWORD,
-    role: "Admin",
+    role: "HR",
     joined: "2025-11-11",
     status: "Active",
     employeeRef: ZISHU_REF,
