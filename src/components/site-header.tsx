@@ -22,13 +22,14 @@ const links = [
   { to: "/quotations", label: "Submit Quotation" },
   { to: "/employee", label: "Employee Upload" },
   { to: "/directory", label: "Employee Directory" },
+  { to: "/hr", label: "HR Panel" },
   { to: "/admin", label: "Admin Portal" },
 ] as const;
 
 export function SiteHeader() {
   const [authOpen, setAuthOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const { user, isAdmin, logout, employee } = usePortal();
+  const { user, isAdmin, isHR, logout, employee } = usePortal();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
 
   return (
