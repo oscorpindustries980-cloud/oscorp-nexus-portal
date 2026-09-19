@@ -127,6 +127,11 @@ export function SiteHeader() {
                     <Link to="/admin">Admin Control Panel</Link>
                   </DropdownMenuItem>
                 )}
+                {isHR && (
+                  <DropdownMenuItem asChild>
+                    <Link to="/hr">HR Panel</Link>
+                  </DropdownMenuItem>
+                )}
                 <DropdownMenuItem
                   onClick={() => {
                     logout();
