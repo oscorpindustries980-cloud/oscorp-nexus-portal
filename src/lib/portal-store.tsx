@@ -58,10 +58,14 @@ export const CLIENT_EMAIL = "i.malhotra@oscorp.com";
 export const CLIENT_PASSWORD = "Contracts@2026";
 /** Contracts head HR personnel record — the linked admin console account. */
 export const CONTRACTS_HEAD_REF = "OSC-IN-90802";
-/** Approvals desk admin — Zishu Ahmad. */
+/** HR desk head & quotation approver — Zishu Ahmad. */
 export const ZISHU_EMAIL = "z.ahmad@oscorp.com";
 export const ZISHU_PASSWORD = "Zishu@2026";
 export const ZISHU_REF = "OSC-IN-90877";
+/** Personnel who prepares and lodges quotations — Shreya Kumari. */
+export const SHREYA_EMAIL = "shreya.kumari@oscorp.com";
+export const SHREYA_PASSWORD = "Shreya@2026";
+export const SHREYA_REF = "OSC-IN-90821";
 
 
 const today = "2026-08-01";
