@@ -592,6 +592,14 @@ export function PortalProvider({ children }: { children: ReactNode }) {
     );
   }, []);
 
+  const setEmployeeVerified = useCallback((ref: string, verified: boolean) => {
+    setEmployees((prev) => prev.map((e) => (e.ref === ref ? { ...e, verified } : e)));
+  }, []);
+
+  const setEmployeeDispatch = useCallback((ref: string, dispatch: Employee["dispatch"]) => {
+    setEmployees((prev) => prev.map((e) => (e.ref === ref ? { ...e, dispatch } : e)));
+  }, []);
+
   const value: PortalContextValue = {
     user,
     employee,
@@ -601,6 +609,9 @@ export function PortalProvider({ children }: { children: ReactNode }) {
     users,
     quotations,
     isAdmin: user?.role === "Admin",
+    isHR: user?.role === "HR",
+    setEmployeeVerified,
+    setEmployeeDispatch,
     isBlocked: user?.status === "Blocked",
     suspensionVisible: suspensionVisible && user?.status === "Blocked",
     flagSuspension: () => setSuspensionVisible(true),
