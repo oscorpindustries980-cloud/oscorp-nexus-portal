@@ -168,12 +168,12 @@ const seedUsers: PortalUser[] = [
   {
     id: "USR-002",
     name: "Shreya Kumari",
-    email: HR_EMAIL,
-    password: HR_PASSWORD,
-    role: "HR",
+    email: SHREYA_EMAIL,
+    password: SHREYA_PASSWORD,
+    role: "Client",
     joined: "2023-06-12",
     status: "Active",
-    employeeRef: HR_REF,
+    employeeRef: SHREYA_REF,
   },
   {
     id: "USR-003",
