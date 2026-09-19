@@ -70,6 +70,11 @@ export function SiteHeader() {
               <ShieldCheck className="mr-1 size-3" /> Admin session
             </Badge>
           )}
+          {isHR && (
+            <Badge variant="outline" className="hidden border-accent/40 bg-accent/10 text-accent sm:inline-flex">
+              <ShieldCheck className="mr-1 size-3" /> HR session
+            </Badge>
+          )}
           {!user && employee && (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
