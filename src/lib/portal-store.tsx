@@ -58,10 +58,14 @@ export const CLIENT_EMAIL = "i.malhotra@oscorp.com";
 export const CLIENT_PASSWORD = "Contracts@2026";
 /** Contracts head HR personnel record — the linked admin console account. */
 export const CONTRACTS_HEAD_REF = "OSC-IN-90802";
-/** Approvals desk admin — Zishu Ahmad. */
+/** HR desk head & quotation approver — Zishu Ahmad. */
 export const ZISHU_EMAIL = "z.ahmad@oscorp.com";
 export const ZISHU_PASSWORD = "Zishu@2026";
 export const ZISHU_REF = "OSC-IN-90877";
+/** Personnel who prepares and lodges quotations — Shreya Kumari. */
+export const SHREYA_EMAIL = "shreya.kumari@oscorp.com";
+export const SHREYA_PASSWORD = "Shreya@2026";
+export const SHREYA_REF = "OSC-IN-90821";
 
 
 const today = "2026-08-01";
@@ -164,12 +168,12 @@ const seedUsers: PortalUser[] = [
   {
     id: "USR-002",
     name: "Shreya Kumari",
-    email: HR_EMAIL,
-    password: HR_PASSWORD,
-    role: "HR",
+    email: SHREYA_EMAIL,
+    password: SHREYA_PASSWORD,
+    role: "Client",
     joined: "2023-06-12",
     status: "Active",
-    employeeRef: HR_REF,
+    employeeRef: SHREYA_REF,
   },
   {
     id: "USR-003",
@@ -206,7 +210,7 @@ const seedUsers: PortalUser[] = [
     name: "Zishu Ahmad",
     email: ZISHU_EMAIL,
     password: ZISHU_PASSWORD,
-    role: "Admin",
+    role: "HR",
     joined: "2025-11-11",
     status: "Active",
     employeeRef: ZISHU_REF,
@@ -227,15 +231,26 @@ const seedEmployees: Employee[] = [
     dispatch: "Dispatched",
   },
   {
-
-    ref: HR_REF,
-    email: HR_EMAIL,
-    grade: "G-7 · Contracts",
+    ref: ZISHU_REF,
+    email: ZISHU_EMAIL,
+    grade: "G-10 · Human Resources",
+    location: "Corporate HQ, NY · HR Block A",
+    joined: "2025-11-11",
+    name: "Zishu Ahmad",
+    title: "Head of Human Resources & Quotation Approvals",
+    division: "HR",
+    verified: true,
+    dispatch: "Dispatched",
+  },
+  {
+    ref: SHREYA_REF,
+    email: SHREYA_EMAIL,
+    grade: "G-7 · Procurement",
     location: "Queens Plant 04, NY",
     joined: "2023-06-12",
     name: "Shreya Kumari",
-    title: "Quotation Specialist",
-    division: "HR",
+    title: "Procurement & Operations Executive",
+    division: "Heavy Machinery",
     verified: true,
     dispatch: "Dispatched",
   },
@@ -390,6 +405,9 @@ interface PortalContextValue {
   users: PortalUser[];
   quotations: Quotation[];
   isAdmin: boolean;
+  isHR: boolean;
+  setEmployeeVerified: (ref: string, verified: boolean) => void;
+  setEmployeeDispatch: (ref: string, dispatch: Employee["dispatch"]) => void;
   isBlocked: boolean;
   suspensionVisible: boolean;
   flagSuspension: () => void;
@@ -500,7 +518,9 @@ export function PortalProvider({ children }: { children: ReactNode }) {
         message:
           found.role === "Admin"
             ? "Admin Control Panel unlocked."
-            : `Welcome back, ${found.name}.`,
+            : found.role === "HR"
+              ? "HR Panel unlocked — quotation approvals enabled."
+              : `Welcome back, ${found.name}.`,
       };
     },
     [users],
@@ -574,6 +594,14 @@ export function PortalProvider({ children }: { children: ReactNode }) {
     );
   }, []);
 
+  const setEmployeeVerified = useCallback((ref: string, verified: boolean) => {
+    setEmployees((prev) => prev.map((e) => (e.ref === ref ? { ...e, verified } : e)));
+  }, []);
+
+  const setEmployeeDispatch = useCallback((ref: string, dispatch: Employee["dispatch"]) => {
+    setEmployees((prev) => prev.map((e) => (e.ref === ref ? { ...e, dispatch } : e)));
+  }, []);
+
   const value: PortalContextValue = {
     user,
     employee,
@@ -583,6 +611,9 @@ export function PortalProvider({ children }: { children: ReactNode }) {
     users,
     quotations,
     isAdmin: user?.role === "Admin",
+    isHR: user?.role === "HR",
+    setEmployeeVerified,
+    setEmployeeDispatch,
     isBlocked: user?.status === "Blocked",
     suspensionVisible: suspensionVisible && user?.status === "Blocked",
     flagSuspension: () => setSuspensionVisible(true),

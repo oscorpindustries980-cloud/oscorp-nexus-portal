@@ -22,13 +22,14 @@ const links = [
   { to: "/quotations", label: "Submit Quotation" },
   { to: "/employee", label: "Employee Upload" },
   { to: "/directory", label: "Employee Directory" },
+  { to: "/hr", label: "HR Panel" },
   { to: "/admin", label: "Admin Portal" },
 ] as const;
 
 export function SiteHeader() {
   const [authOpen, setAuthOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const { user, isAdmin, logout, employee } = usePortal();
+  const { user, isAdmin, isHR, logout, employee } = usePortal();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
 
   return (
@@ -67,6 +68,11 @@ export function SiteHeader() {
           {isAdmin && (
             <Badge variant="outline" className="hidden border-accent/40 bg-accent/10 text-accent sm:inline-flex">
               <ShieldCheck className="mr-1 size-3" /> Admin session
+            </Badge>
+          )}
+          {isHR && (
+            <Badge variant="outline" className="hidden border-accent/40 bg-accent/10 text-accent sm:inline-flex">
+              <ShieldCheck className="mr-1 size-3" /> HR session
             </Badge>
           )}
           {!user && employee && (
@@ -119,6 +125,11 @@ export function SiteHeader() {
                 {isAdmin && (
                   <DropdownMenuItem asChild>
                     <Link to="/admin">Admin Control Panel</Link>
+                  </DropdownMenuItem>
+                )}
+                {isHR && (
+                  <DropdownMenuItem asChild>
+                    <Link to="/hr">HR Panel</Link>
                   </DropdownMenuItem>
                 )}
                 <DropdownMenuItem
