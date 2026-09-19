@@ -405,6 +405,9 @@ interface PortalContextValue {
   users: PortalUser[];
   quotations: Quotation[];
   isAdmin: boolean;
+  isHR: boolean;
+  setEmployeeVerified: (ref: string, verified: boolean) => void;
+  setEmployeeDispatch: (ref: string, dispatch: Employee["dispatch"]) => void;
   isBlocked: boolean;
   suspensionVisible: boolean;
   flagSuspension: () => void;
