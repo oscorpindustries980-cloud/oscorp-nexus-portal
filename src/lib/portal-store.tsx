@@ -518,7 +518,9 @@ export function PortalProvider({ children }: { children: ReactNode }) {
         message:
           found.role === "Admin"
             ? "Admin Control Panel unlocked."
-            : `Welcome back, ${found.name}.`,
+            : found.role === "HR"
+              ? "HR Panel unlocked — quotation approvals enabled."
+              : `Welcome back, ${found.name}.`,
       };
     },
     [users],
